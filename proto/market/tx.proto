@@ -1,0 +1,39 @@
+syntax = "proto3";
+package VelaChain.vela.market;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/VelaChain/vela/x/market/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc CreatePool(MsgCreatePool) returns (MsgCreatePoolResponse);
+  rpc JoinPool(MsgJoinPool) returns (MsgJoinPoolResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreatePool {
+  string creator = 1;
+  string amountA = 2;
+  string denomA = 3;
+  string amountB = 4;
+  string denomB = 5;
+  string minShares = 6;
+}
+
+message MsgCreatePoolResponse {
+}
+
+message MsgJoinPool {
+  string creator = 1;
+  string amountA = 2;
+  string denomA = 3;
+  string amountB = 4;
+  string denomB = 5;
+  string minShares = 6;
+}
+
+message MsgJoinPoolResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message
