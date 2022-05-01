@@ -44,6 +44,25 @@ export interface MsgExitPool {
 
 export interface MsgExitPoolResponse {}
 
+export interface MsgRemoveLiquidity {
+  creator: string;
+  shares: string;
+  denomA: string;
+  denomB: string;
+}
+
+export interface MsgRemoveLiquidityResponse {}
+
+export interface MsgSwap {
+  creator: string;
+  amountIn: string;
+  denomIn: string;
+  minAmountOut: string;
+  denomOut: string;
+}
+
+export interface MsgSwapResponse {}
+
 const baseMsgCreatePool: object = {
   creator: "",
   amountA: "",
@@ -734,13 +753,351 @@ export const MsgExitPoolResponse = {
   },
 };
 
+const baseMsgRemoveLiquidity: object = {
+  creator: "",
+  shares: "",
+  denomA: "",
+  denomB: "",
+};
+
+export const MsgRemoveLiquidity = {
+  encode(
+    message: MsgRemoveLiquidity,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.shares !== "") {
+      writer.uint32(18).string(message.shares);
+    }
+    if (message.denomA !== "") {
+      writer.uint32(26).string(message.denomA);
+    }
+    if (message.denomB !== "") {
+      writer.uint32(34).string(message.denomB);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgRemoveLiquidity {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgRemoveLiquidity } as MsgRemoveLiquidity;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.shares = reader.string();
+          break;
+        case 3:
+          message.denomA = reader.string();
+          break;
+        case 4:
+          message.denomB = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgRemoveLiquidity {
+    const message = { ...baseMsgRemoveLiquidity } as MsgRemoveLiquidity;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.shares !== undefined && object.shares !== null) {
+      message.shares = String(object.shares);
+    } else {
+      message.shares = "";
+    }
+    if (object.denomA !== undefined && object.denomA !== null) {
+      message.denomA = String(object.denomA);
+    } else {
+      message.denomA = "";
+    }
+    if (object.denomB !== undefined && object.denomB !== null) {
+      message.denomB = String(object.denomB);
+    } else {
+      message.denomB = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgRemoveLiquidity): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.shares !== undefined && (obj.shares = message.shares);
+    message.denomA !== undefined && (obj.denomA = message.denomA);
+    message.denomB !== undefined && (obj.denomB = message.denomB);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgRemoveLiquidity>): MsgRemoveLiquidity {
+    const message = { ...baseMsgRemoveLiquidity } as MsgRemoveLiquidity;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.shares !== undefined && object.shares !== null) {
+      message.shares = object.shares;
+    } else {
+      message.shares = "";
+    }
+    if (object.denomA !== undefined && object.denomA !== null) {
+      message.denomA = object.denomA;
+    } else {
+      message.denomA = "";
+    }
+    if (object.denomB !== undefined && object.denomB !== null) {
+      message.denomB = object.denomB;
+    } else {
+      message.denomB = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgRemoveLiquidityResponse: object = {};
+
+export const MsgRemoveLiquidityResponse = {
+  encode(
+    _: MsgRemoveLiquidityResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgRemoveLiquidityResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgRemoveLiquidityResponse,
+    } as MsgRemoveLiquidityResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgRemoveLiquidityResponse {
+    const message = {
+      ...baseMsgRemoveLiquidityResponse,
+    } as MsgRemoveLiquidityResponse;
+    return message;
+  },
+
+  toJSON(_: MsgRemoveLiquidityResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgRemoveLiquidityResponse>
+  ): MsgRemoveLiquidityResponse {
+    const message = {
+      ...baseMsgRemoveLiquidityResponse,
+    } as MsgRemoveLiquidityResponse;
+    return message;
+  },
+};
+
+const baseMsgSwap: object = {
+  creator: "",
+  amountIn: "",
+  denomIn: "",
+  minAmountOut: "",
+  denomOut: "",
+};
+
+export const MsgSwap = {
+  encode(message: MsgSwap, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.amountIn !== "") {
+      writer.uint32(18).string(message.amountIn);
+    }
+    if (message.denomIn !== "") {
+      writer.uint32(26).string(message.denomIn);
+    }
+    if (message.minAmountOut !== "") {
+      writer.uint32(34).string(message.minAmountOut);
+    }
+    if (message.denomOut !== "") {
+      writer.uint32(42).string(message.denomOut);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgSwap {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgSwap } as MsgSwap;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.amountIn = reader.string();
+          break;
+        case 3:
+          message.denomIn = reader.string();
+          break;
+        case 4:
+          message.minAmountOut = reader.string();
+          break;
+        case 5:
+          message.denomOut = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgSwap {
+    const message = { ...baseMsgSwap } as MsgSwap;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.amountIn !== undefined && object.amountIn !== null) {
+      message.amountIn = String(object.amountIn);
+    } else {
+      message.amountIn = "";
+    }
+    if (object.denomIn !== undefined && object.denomIn !== null) {
+      message.denomIn = String(object.denomIn);
+    } else {
+      message.denomIn = "";
+    }
+    if (object.minAmountOut !== undefined && object.minAmountOut !== null) {
+      message.minAmountOut = String(object.minAmountOut);
+    } else {
+      message.minAmountOut = "";
+    }
+    if (object.denomOut !== undefined && object.denomOut !== null) {
+      message.denomOut = String(object.denomOut);
+    } else {
+      message.denomOut = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgSwap): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.amountIn !== undefined && (obj.amountIn = message.amountIn);
+    message.denomIn !== undefined && (obj.denomIn = message.denomIn);
+    message.minAmountOut !== undefined &&
+      (obj.minAmountOut = message.minAmountOut);
+    message.denomOut !== undefined && (obj.denomOut = message.denomOut);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgSwap>): MsgSwap {
+    const message = { ...baseMsgSwap } as MsgSwap;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.amountIn !== undefined && object.amountIn !== null) {
+      message.amountIn = object.amountIn;
+    } else {
+      message.amountIn = "";
+    }
+    if (object.denomIn !== undefined && object.denomIn !== null) {
+      message.denomIn = object.denomIn;
+    } else {
+      message.denomIn = "";
+    }
+    if (object.minAmountOut !== undefined && object.minAmountOut !== null) {
+      message.minAmountOut = object.minAmountOut;
+    } else {
+      message.minAmountOut = "";
+    }
+    if (object.denomOut !== undefined && object.denomOut !== null) {
+      message.denomOut = object.denomOut;
+    } else {
+      message.denomOut = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgSwapResponse: object = {};
+
+export const MsgSwapResponse = {
+  encode(_: MsgSwapResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgSwapResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgSwapResponse } as MsgSwapResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgSwapResponse {
+    const message = { ...baseMsgSwapResponse } as MsgSwapResponse;
+    return message;
+  },
+
+  toJSON(_: MsgSwapResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgSwapResponse>): MsgSwapResponse {
+    const message = { ...baseMsgSwapResponse } as MsgSwapResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreatePool(request: MsgCreatePool): Promise<MsgCreatePoolResponse>;
   JoinPool(request: MsgJoinPool): Promise<MsgJoinPoolResponse>;
   AddLiquidity(request: MsgAddLiquidity): Promise<MsgAddLiquidityResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   ExitPool(request: MsgExitPool): Promise<MsgExitPoolResponse>;
+  RemoveLiquidity(
+    request: MsgRemoveLiquidity
+  ): Promise<MsgRemoveLiquidityResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  Swap(request: MsgSwap): Promise<MsgSwapResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -790,6 +1147,26 @@ export class MsgClientImpl implements Msg {
       data
     );
     return promise.then((data) => MsgExitPoolResponse.decode(new Reader(data)));
+  }
+
+  RemoveLiquidity(
+    request: MsgRemoveLiquidity
+  ): Promise<MsgRemoveLiquidityResponse> {
+    const data = MsgRemoveLiquidity.encode(request).finish();
+    const promise = this.rpc.request(
+      "VelaChain.vela.market.Msg",
+      "RemoveLiquidity",
+      data
+    );
+    return promise.then((data) =>
+      MsgRemoveLiquidityResponse.decode(new Reader(data))
+    );
+  }
+
+  Swap(request: MsgSwap): Promise<MsgSwapResponse> {
+    const data = MsgSwap.encode(request).finish();
+    const promise = this.rpc.request("VelaChain.vela.market.Msg", "Swap", data);
+    return promise.then((data) => MsgSwapResponse.decode(new Reader(data)));
   }
 }
 

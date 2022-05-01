@@ -23,6 +23,10 @@ export type MarketMsgExitPoolResponse = object;
 
 export type MarketMsgJoinPoolResponse = object;
 
+export type MarketMsgRemoveLiquidityResponse = object;
+
+export type MarketMsgSwapResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

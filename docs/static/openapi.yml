@@ -49046,6 +49046,10 @@ definitions:
     type: object
   VelaChain.vela.market.MsgJoinPoolResponse:
     type: object
+  VelaChain.vela.market.MsgRemoveLiquidityResponse:
+    type: object
+  VelaChain.vela.market.MsgSwapResponse:
+    type: object
   VelaChain.vela.market.Params:
     type: object
     description: Params defines the parameters for the module.

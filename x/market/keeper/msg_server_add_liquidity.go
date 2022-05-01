@@ -87,7 +87,7 @@ func (k msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidit
 		return &types.MsgAddLiquidityResponse{}, types.ErrConvertSharesToInt
 	}
 	// check ratios
-	if poolAmountA.Mul(msgAmountB) != poolAmountB.Mul(msgAmountA) {
+	if !poolAmountA.Mul(msgAmountB).Equal(poolAmountB.Mul(msgAmountA)) {
 		return &types.MsgAddLiquidityResponse{}, types.ErrInvalidRatio
 	}
 	// get new shares out

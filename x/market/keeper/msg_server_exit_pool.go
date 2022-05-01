@@ -8,9 +8,9 @@ import (
 )
 
 func (k msgServer) validateExitPoolMsg(ctx sdk.Context, msg *types.MsgExitPool) error {
-	if _, err := sdk.AccAddressFromBech32(msg.Creator); err != nil{
+	if _, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
 		return types.ErrAccAddressFromMsg
-	} 
+	}
 	return nil
 }
 
@@ -70,7 +70,7 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	newAmountA := poolAmountA.Sub(amountOutA)
 	newAmountB := poolAmountB.Sub(amountOutB)
 	newShares := poolShares.Sub(provShares)
-	// remove liq prov 
+	// remove liq prov
 	k.Keeper.RemoveLiqProv(ctx, poolName, msg.Creator)
 	// get new pool
 	newPool := types.NewPool(newAmountA.String(), msg.DenomA, newAmountB.String(), msg.DenomB, newShares.String())
