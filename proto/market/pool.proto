@@ -1,0 +1,14 @@
+syntax = "proto3";
+package VelaChain.vela.market;
+
+option go_package = "github.com/VelaChain/vela/x/market/types";
+
+message Pool {
+  string denomA = 1; 
+  string denomB = 2; 
+  string amountA = 3; 
+  string amountB = 4; 
+  string shares = 5; 
+  
+}
+

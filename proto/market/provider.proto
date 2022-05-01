@@ -1,0 +1,12 @@
+syntax = "proto3";
+package VelaChain.vela.market;
+
+option go_package = "github.com/VelaChain/vela/x/market/types";
+
+message Provider {
+  string denomA = 1; 
+  string denomB = 2; 
+  string address = 3; 
+  
+}
+

@@ -9,6 +9,18 @@ import (
 // InitGenesis initializes the capability module's state from a provided genesis
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
+	// Set all the pool
+	for _, elem := range genState.PoolList {
+		k.SetPool(ctx, elem)
+	}
+	// Set all the provider
+	for _, elem := range genState.ProviderList {
+		k.SetProvider(ctx, elem)
+	}
+	// Set all the liqProv
+	for _, elem := range genState.LiqProvList {
+		k.SetLiqProv(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetPort(ctx, genState.PortId)
 	// Only try to bind to port if it is not already bound, since we may already own
@@ -30,6 +42,9 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.PortId = k.GetPort(ctx)
+	genesis.PoolList = k.GetAllPool(ctx)
+	genesis.ProviderList = k.GetAllProvider(ctx)
+	genesis.LiqProvList = k.GetAllLiqProv(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

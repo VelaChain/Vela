@@ -1,8 +1,8 @@
 package types
 
 import (
+	"fmt"
 	host "github.com/cosmos/ibc-go/v2/modules/core/24-host"
-	// this line is used by starport scaffolding # genesis/types/import
 )
 
 // DefaultIndex is the default capability global index
@@ -11,7 +11,10 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		PortId: PortID,
+		PortId:       PortID,
+		PoolList:     []Pool{},
+		ProviderList: []Provider{},
+		LiqProvList:  []LiqProv{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -22,6 +25,36 @@ func DefaultGenesis() *GenesisState {
 func (gs GenesisState) Validate() error {
 	if err := host.PortIdentifierValidator(gs.PortId); err != nil {
 		return err
+	}
+	// Check for duplicated index in pool
+	poolIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.PoolList {
+		index := string(PoolKey(elem.DenomA, elem.DenomB))
+		if _, ok := poolIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for pool")
+		}
+		poolIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in provider
+	providerIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.ProviderList {
+		index := string(ProviderKey(elem.DenomA, elem.DenomB))
+		if _, ok := providerIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for provider")
+		}
+		providerIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in liqProv
+	liqProvIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.LiqProvList {
+		index := string(LiqProvKey(elem.PoolName, elem.Address))
+		if _, ok := liqProvIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for liqProv")
+		}
+		liqProvIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

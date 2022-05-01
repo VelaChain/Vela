@@ -22,9 +22,87 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 				PortId: types.PortID,
+				PoolList: []types.Pool{
+					{
+						DenomA: "0",
+						DenomB: "0",
+					},
+					{
+						DenomA: "1",
+						DenomB: "1",
+					},
+				},
+				ProviderList: []types.Provider{
+					{
+						DenomA: "0",
+						DenomB: "0",
+					},
+					{
+						DenomA: "1",
+						DenomB: "1",
+					},
+				},
+				LiqProvList: []types.LiqProv{
+					{
+						PoolName: "0",
+						Address:  "0",
+					},
+					{
+						PoolName: "1",
+						Address:  "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated pool",
+			genState: &types.GenesisState{
+				PoolList: []types.Pool{
+					{
+						DenomA: "0",
+						DenomB: "0",
+					},
+					{
+						DenomA: "0",
+						DenomB: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated provider",
+			genState: &types.GenesisState{
+				ProviderList: []types.Provider{
+					{
+						DenomA: "0",
+						DenomB: "0",
+					},
+					{
+						DenomA: "0",
+						DenomB: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated liqProv",
+			genState: &types.GenesisState{
+				LiqProvList: []types.LiqProv{
+					{
+						PoolName: "0",
+						Address:  "0",
+					},
+					{
+						PoolName: "0",
+						Address:  "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {

@@ -9,6 +9,8 @@ option go_package = "github.com/VelaChain/vela/x/market/types";
 service Msg {
       rpc CreatePool(MsgCreatePool) returns (MsgCreatePoolResponse);
   rpc JoinPool(MsgJoinPool) returns (MsgJoinPoolResponse);
+  rpc AddLiquidity(MsgAddLiquidity) returns (MsgAddLiquidityResponse);
+  rpc ExitPool(MsgExitPool) returns (MsgExitPoolResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -34,6 +36,27 @@ message MsgJoinPool {
 }
 
 message MsgJoinPoolResponse {
+}
+
+message MsgAddLiquidity {
+  string creator = 1;
+  string amountA = 2;
+  string denomA = 3;
+  string amountB = 4;
+  string denomB = 5;
+  string minShares = 6;
+}
+
+message MsgAddLiquidityResponse {
+}
+
+message MsgExitPool {
+  string creator = 1;
+  string denomA = 2;
+  string denomB = 3;
+}
+
+message MsgExitPoolResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

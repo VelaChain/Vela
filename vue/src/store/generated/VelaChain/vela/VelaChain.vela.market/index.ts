@@ -1,11 +1,14 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
+import { LiqProv } from "./module/types/market/liq_prov"
 import { MarketPacketData } from "./module/types/market/packet"
 import { NoData } from "./module/types/market/packet"
 import { Params } from "./module/types/market/params"
+import { Pool } from "./module/types/market/pool"
+import { Provider } from "./module/types/market/provider"
 
 
-export { MarketPacketData, NoData, Params };
+export { LiqProv, MarketPacketData, NoData, Params, Pool, Provider };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -44,11 +47,20 @@ function getStructure(template) {
 const getDefaultState = () => {
 	return {
 				Params: {},
+				Pool: {},
+				PoolAll: {},
+				Provider: {},
+				ProviderAll: {},
+				LiqProv: {},
+				LiqProvAll: {},
 				
 				_Structure: {
+						LiqProv: getStructure(LiqProv.fromPartial({})),
 						MarketPacketData: getStructure(MarketPacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
+						Pool: getStructure(Pool.fromPartial({})),
+						Provider: getStructure(Provider.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -82,6 +94,42 @@ export default {
 						(<any> params).query=null
 					}
 			return state.Params[JSON.stringify(params)] ?? {}
+		},
+				getPool: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Pool[JSON.stringify(params)] ?? {}
+		},
+				getPoolAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.PoolAll[JSON.stringify(params)] ?? {}
+		},
+				getProvider: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Provider[JSON.stringify(params)] ?? {}
+		},
+				getProviderAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.ProviderAll[JSON.stringify(params)] ?? {}
+		},
+				getLiqProv: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.LiqProv[JSON.stringify(params)] ?? {}
+		},
+				getLiqProvAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.LiqProvAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -139,6 +187,150 @@ export default {
 		},
 		
 		
+		
+		
+		 		
+		
+		
+		async QueryPool({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryPool( key.denomA,  key.denomB)).data
+				
+					
+				commit('QUERY', { query: 'Pool', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryPool', payload: { options: { all }, params: {...key},query }})
+				return getters['getPool']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryPool API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryPoolAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryPoolAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryPoolAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'PoolAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryPoolAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getPoolAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryPoolAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryProvider({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryProvider( key.denomA,  key.denomB)).data
+				
+					
+				commit('QUERY', { query: 'Provider', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryProvider', payload: { options: { all }, params: {...key},query }})
+				return getters['getProvider']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryProvider API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryProviderAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryProviderAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryProviderAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'ProviderAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryProviderAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getProviderAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryProviderAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryLiqProv({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryLiqProv( key.poolName,  key.address)).data
+				
+					
+				commit('QUERY', { query: 'LiqProv', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryLiqProv', payload: { options: { all }, params: {...key},query }})
+				return getters['getLiqProv']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryLiqProv API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryLiqProvAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryLiqProvAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryLiqProvAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'LiqProvAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryLiqProvAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getLiqProvAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryLiqProvAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
 		async sendMsgCreatePool({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -151,6 +343,21 @@ export default {
 					throw new Error('TxClient:MsgCreatePool:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgCreatePool:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgExitPool({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgExitPool(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgExitPool:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgExitPool:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -169,6 +376,21 @@ export default {
 				}
 			}
 		},
+		async sendMsgAddLiquidity({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgAddLiquidity(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgAddLiquidity:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgAddLiquidity:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		
 		async MsgCreatePool({ rootGetters }, { value }) {
 			try {
@@ -183,6 +405,19 @@ export default {
 				}
 			}
 		},
+		async MsgExitPool({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgExitPool(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgExitPool:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgExitPool:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgJoinPool({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -193,6 +428,19 @@ export default {
 					throw new Error('TxClient:MsgJoinPool:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgJoinPool:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgAddLiquidity({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgAddLiquidity(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgAddLiquidity:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgAddLiquidity:Create Could not create message: ' + e.message)
 				}
 			}
 		},

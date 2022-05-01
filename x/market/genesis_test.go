@@ -14,6 +14,36 @@ func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
 		Params: types.DefaultParams(),
 		PortId: types.PortID,
+		PoolList: []types.Pool{
+			{
+				DenomA: "0",
+				DenomB: "0",
+			},
+			{
+				DenomA: "1",
+				DenomB: "1",
+			},
+		},
+		ProviderList: []types.Provider{
+			{
+				DenomA: "0",
+				DenomB: "0",
+			},
+			{
+				DenomA: "1",
+				DenomB: "1",
+			},
+		},
+		LiqProvList: []types.LiqProv{
+			{
+				PoolName: "0",
+				Address:  "0",
+			},
+			{
+				PoolName: "1",
+				Address:  "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -27,5 +57,8 @@ func TestGenesis(t *testing.T) {
 
 	require.Equal(t, genesisState.PortId, got.PortId)
 
+	require.ElementsMatch(t, genesisState.PoolList, got.PoolList)
+	require.ElementsMatch(t, genesisState.ProviderList, got.ProviderList)
+	require.ElementsMatch(t, genesisState.LiqProvList, got.LiqProvList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

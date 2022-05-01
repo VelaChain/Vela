@@ -1,0 +1,12 @@
+syntax = "proto3";
+package VelaChain.vela.market;
+
+option go_package = "github.com/VelaChain/vela/x/market/types";
+
+message LiqProv {
+  string poolName = 1; 
+  string address = 2; 
+  string shareAmount = 3; 
+  
+}
+

@@ -28270,6 +28270,179 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /VelaChain/vela/market/liq_prov:
+    get:
+      summary: Queries a list of LiqProv items.
+      operationId: VelaChainVelaMarketLiqProvAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              liqProv:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    poolName:
+                      type: string
+                    address:
+                      type: string
+                    shareAmount:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/VelaChain/vela/market/liq_prov/{poolName}/{address}':
+    get:
+      summary: Queries a LiqProv by index.
+      operationId: VelaChainVelaMarketLiqProv
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              liqProv:
+                type: object
+                properties:
+                  poolName:
+                    type: string
+                  address:
+                    type: string
+                  shareAmount:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: poolName
+          in: path
+          required: true
+          type: string
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /VelaChain/vela/market/params:
     get:
       summary: Parameters queries the parameters of the module.
@@ -28304,6 +28477,360 @@ paths:
                     '@type':
                       type: string
                   additionalProperties: {}
+      tags:
+        - Query
+  /VelaChain/vela/market/pool:
+    get:
+      summary: Queries a list of Pool items.
+      operationId: VelaChainVelaMarketPoolAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              pool:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    denomA:
+                      type: string
+                    denomB:
+                      type: string
+                    amountA:
+                      type: string
+                    amountB:
+                      type: string
+                    shares:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/VelaChain/vela/market/pool/{denomA}/{denomB}':
+    get:
+      summary: Queries a Pool by index.
+      operationId: VelaChainVelaMarketPool
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              pool:
+                type: object
+                properties:
+                  denomA:
+                    type: string
+                  denomB:
+                    type: string
+                  amountA:
+                    type: string
+                  amountB:
+                    type: string
+                  shares:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: denomA
+          in: path
+          required: true
+          type: string
+        - name: denomB
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /VelaChain/vela/market/provider:
+    get:
+      summary: Queries a list of Provider items.
+      operationId: VelaChainVelaMarketProviderAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              provider:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    denomA:
+                      type: string
+                    denomB:
+                      type: string
+                    address:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/VelaChain/vela/market/provider/{denomA}/{denomB}':
+    get:
+      summary: Queries a Provider by index.
+      operationId: VelaChainVelaMarketProvider
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              provider:
+                type: object
+                properties:
+                  denomA:
+                    type: string
+                  denomB:
+                    type: string
+                  address:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: denomA
+          in: path
+          required: true
+          type: string
+        - name: denomB
+          in: path
+          required: true
+          type: string
       tags:
         - Query
 definitions:
@@ -48502,13 +49029,209 @@ definitions:
     title: >-
       SignatureCounts contains information about signature reporting for a
       number of blocks
+  VelaChain.vela.market.LiqProv:
+    type: object
+    properties:
+      poolName:
+        type: string
+      address:
+        type: string
+      shareAmount:
+        type: string
+  VelaChain.vela.market.MsgAddLiquidityResponse:
+    type: object
   VelaChain.vela.market.MsgCreatePoolResponse:
+    type: object
+  VelaChain.vela.market.MsgExitPoolResponse:
     type: object
   VelaChain.vela.market.MsgJoinPoolResponse:
     type: object
   VelaChain.vela.market.Params:
     type: object
     description: Params defines the parameters for the module.
+  VelaChain.vela.market.Pool:
+    type: object
+    properties:
+      denomA:
+        type: string
+      denomB:
+        type: string
+      amountA:
+        type: string
+      amountB:
+        type: string
+      shares:
+        type: string
+  VelaChain.vela.market.Provider:
+    type: object
+    properties:
+      denomA:
+        type: string
+      denomB:
+        type: string
+      address:
+        type: string
+  VelaChain.vela.market.QueryAllLiqProvResponse:
+    type: object
+    properties:
+      liqProv:
+        type: array
+        items:
+          type: object
+          properties:
+            poolName:
+              type: string
+            address:
+              type: string
+            shareAmount:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  VelaChain.vela.market.QueryAllPoolResponse:
+    type: object
+    properties:
+      pool:
+        type: array
+        items:
+          type: object
+          properties:
+            denomA:
+              type: string
+            denomB:
+              type: string
+            amountA:
+              type: string
+            amountB:
+              type: string
+            shares:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  VelaChain.vela.market.QueryAllProviderResponse:
+    type: object
+    properties:
+      provider:
+        type: array
+        items:
+          type: object
+          properties:
+            denomA:
+              type: string
+            denomB:
+              type: string
+            address:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  VelaChain.vela.market.QueryGetLiqProvResponse:
+    type: object
+    properties:
+      liqProv:
+        type: object
+        properties:
+          poolName:
+            type: string
+          address:
+            type: string
+          shareAmount:
+            type: string
+  VelaChain.vela.market.QueryGetPoolResponse:
+    type: object
+    properties:
+      pool:
+        type: object
+        properties:
+          denomA:
+            type: string
+          denomB:
+            type: string
+          amountA:
+            type: string
+          amountB:
+            type: string
+          shares:
+            type: string
+  VelaChain.vela.market.QueryGetProviderResponse:
+    type: object
+    properties:
+      provider:
+        type: object
+        properties:
+          denomA:
+            type: string
+          denomB:
+            type: string
+          address:
+            type: string
   VelaChain.vela.market.QueryParamsResponse:
     type: object
     properties:
