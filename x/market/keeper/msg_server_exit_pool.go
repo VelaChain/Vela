@@ -7,18 +7,19 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) validateExitPoolMsg(ctx sdk.Context, msg *types.MsgExitPool) error {
-	if _, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
-		return types.ErrAccAddressFromMsg
+func (k msgServer) validateExitPoolMsg(ctx sdk.Context, msg *types.MsgExitPool) (accAddr sdk.AccAddress, err error) {
+	if accAddr, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
+		return accAddr, types.ErrAccAddressFromMsg
 	}
-	return nil
+	return accAddr, nil
 }
 
 func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*types.MsgExitPoolResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// validate message
-	if err := k.validateExitPoolMsg(ctx, msg); err != nil {
+	accAddr, err := k.validateExitPoolMsg(ctx, msg)
+	if err != nil {
 		return &types.MsgExitPoolResponse{}, err
 	}
 	// check if pool exists
@@ -54,7 +55,7 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	amountOutA := provShares.Mul(poolAmountA).Quo(poolShares)
 	amountOutB := provShares.Mul(poolAmountB).Quo(poolShares)
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	accAddr, err = sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return &types.MsgExitPoolResponse{}, err
 	}
