@@ -7,38 +7,38 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) validateJoinPoolMsg(ctx sdk.Context, msg *types.MsgJoinPool) error {
+func (k msgServer) validateJoinPoolMsg(ctx sdk.Context, msg *types.MsgJoinPool) (msgAmountA sdk.Int, msgAmountB sdk.Int, msgShares sdk.Int, accAddr sdk.AccAddress, err error) {
 	// check ints from strings ok
 	msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
 	if !ok {
-		return types.ErrConvertAmountAToInt
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrConvertAmountAToInt
 	}
-	msgAmountB, ok := sdk.NewIntFromString(msg.AmountB)
+	msgAmountB, ok = sdk.NewIntFromString(msg.AmountB)
 	if !ok {
-		return types.ErrConvertAmountBToInt
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrConvertAmountBToInt
 	}
-	_, ok = sdk.NewIntFromString(msg.MinShares)
+	msgShares, ok = sdk.NewIntFromString(msg.MinShares)
 	if !ok {
-		return types.ErrConvertSharesToInt
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrConvertSharesToInt
 	}
 	// check different denoms
 	if msg.DenomA == msg.DenomB {
-		return types.ErrDenomsSame
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrDenomsSame
 	}
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	accAddr, err = sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return err
+		return msgAmountA, msgAmountB, msgShares, accAddr, err
 	}
 	// check account balances
 	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomA, msgAmountA)) {
-		return types.ErrInsufficientBalanceA
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrInsufficientBalanceA
 	}
 	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomB, msgAmountB)) {
-		return types.ErrInsufficientBalanceB
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrInsufficientBalanceB
 	}
 
-	return nil
+	return msgAmountA, msgAmountB, msgShares, accAddr, nil
 }
 
 // JoinPool creates a new liquidity provider for a pool
@@ -48,7 +48,8 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// validate params and balances are available
-	if err := k.validateJoinPoolMsg(ctx, msg); err != nil {
+	msgAmountA, msgAmountB, msgShares, accAddr, err := k.validateJoinPoolMsg(ctx, msg)
+	if err != nil {
 		return &types.MsgJoinPoolResponse{}, err
 	}
 	// check if pool exists
@@ -63,14 +64,14 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 		return &types.MsgJoinPoolResponse{}, types.ErrLiqProvExists
 	}
 	// convert strings to skd.Int
-	msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
-	if !ok {
-		return &types.MsgJoinPoolResponse{}, types.ErrConvertAmountAToInt
-	}
-	msgAmountB, ok := sdk.NewIntFromString(msg.AmountB)
-	if !ok {
-		return &types.MsgJoinPoolResponse{}, types.ErrConvertAmountBToInt
-	}
+	// msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
+	// if !ok {
+	// 	return &types.MsgJoinPoolResponse{}, types.ErrConvertAmountAToInt
+	// }
+	// msgAmountB, ok := sdk.NewIntFromString(msg.AmountB)
+	// if !ok {
+	// 	return &types.MsgJoinPoolResponse{}, types.ErrConvertAmountBToInt
+	// }
 	poolAmountA, ok := sdk.NewIntFromString(pool.AmountA)
 	if !ok {
 		return &types.MsgJoinPoolResponse{}, types.ErrConvertAmountAToInt
@@ -83,10 +84,10 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 	if !ok {
 		return &types.MsgJoinPoolResponse{}, types.ErrConvertSharesToInt
 	}
-	msgShares, ok := sdk.NewIntFromString(msg.MinShares)
-	if !ok {
-		return &types.MsgJoinPoolResponse{}, types.ErrConvertSharesToInt
-	}
+	// msgShares, ok := sdk.NewIntFromString(msg.MinShares)
+	// if !ok {
+	// 	return &types.MsgJoinPoolResponse{}, types.ErrConvertSharesToInt
+	// }
 	// check ratios
 	if !poolAmountA.Mul(msgAmountB).Equal(poolAmountB.Mul(msgAmountA)) {
 		return &types.MsgJoinPoolResponse{}, types.ErrInvalidRatio
@@ -98,10 +99,10 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 		return &types.MsgJoinPoolResponse{}, types.ErrNotEnoughSharesOut
 	}
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return &types.MsgJoinPoolResponse{}, types.ErrAccAddressFromMsg
-	}
+	// accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	// if err != nil {
+	// 	return &types.MsgJoinPoolResponse{}, types.ErrAccAddressFromMsg
+	// }
 	// create coins to send
 	coinA := sdk.NewCoin(msg.DenomA, msgAmountA)
 	coinB := sdk.NewCoin(msg.DenomB, msgAmountB)
