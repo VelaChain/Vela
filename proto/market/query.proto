@@ -6,7 +6,6 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "market/params.proto";
 import "market/pool.proto";
-import "market/provider.proto";
 import "market/liq_prov.proto";
 // this line is used by starport scaffolding # 1
 
@@ -26,16 +25,6 @@ service Query {
 	// Queries a list of Pool items.
 	rpc PoolAll(QueryAllPoolRequest) returns (QueryAllPoolResponse) {
 		option (google.api.http).get = "/VelaChain/vela/market/pool";
-	}
-
-// Queries a Provider by index.
-	rpc Provider(QueryGetProviderRequest) returns (QueryGetProviderResponse) {
-		option (google.api.http).get = "/VelaChain/vela/market/provider/{denomA}/{denomB}";
-	}
-
-	// Queries a list of Provider items.
-	rpc ProviderAll(QueryAllProviderRequest) returns (QueryAllProviderResponse) {
-		option (google.api.http).get = "/VelaChain/vela/market/provider";
 	}
 
 // Queries a LiqProv by index.
@@ -76,25 +65,6 @@ message QueryAllPoolRequest {
 
 message QueryAllPoolResponse {
 	repeated Pool pool = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
-}
-
-message QueryGetProviderRequest {
-	  string denomA = 1;
-  string denomB = 2;
-
-}
-
-message QueryGetProviderResponse {
-	Provider provider = 1 [(gogoproto.nullable) = false];
-}
-
-message QueryAllProviderRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
-}
-
-message QueryAllProviderResponse {
-	repeated Provider provider = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

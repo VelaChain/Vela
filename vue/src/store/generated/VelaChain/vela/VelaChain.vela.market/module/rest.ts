@@ -40,12 +40,6 @@ export interface MarketPool {
   shares?: string;
 }
 
-export interface MarketProvider {
-  denomA?: string;
-  denomB?: string;
-  address?: string;
-}
-
 export interface MarketQueryAllLiqProvResponse {
   liqProv?: MarketLiqProv[];
 
@@ -76,31 +70,12 @@ export interface MarketQueryAllPoolResponse {
   pagination?: V1Beta1PageResponse;
 }
 
-export interface MarketQueryAllProviderResponse {
-  provider?: MarketProvider[];
-
-  /**
-   * PageResponse is to be embedded in gRPC response messages where the
-   * corresponding request message has used PageRequest.
-   *
-   *  message SomeResponse {
-   *          repeated Bar results = 1;
-   *          PageResponse page = 2;
-   *  }
-   */
-  pagination?: V1Beta1PageResponse;
-}
-
 export interface MarketQueryGetLiqProvResponse {
   liqProv?: MarketLiqProv;
 }
 
 export interface MarketQueryGetPoolResponse {
   pool?: MarketPool;
-}
-
-export interface MarketQueryGetProviderResponse {
-  provider?: MarketProvider;
 }
 
 /**
@@ -476,48 +451,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryPool = (denomA: string, denomB: string, params: RequestParams = {}) =>
     this.request<MarketQueryGetPoolResponse, RpcStatus>({
       path: `/VelaChain/vela/market/pool/${denomA}/${denomB}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
-
-  /**
-   * No description
-   *
-   * @tags Query
-   * @name QueryProviderAll
-   * @summary Queries a list of Provider items.
-   * @request GET:/VelaChain/vela/market/provider
-   */
-  queryProviderAll = (
-    query?: {
-      "pagination.key"?: string;
-      "pagination.offset"?: string;
-      "pagination.limit"?: string;
-      "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<MarketQueryAllProviderResponse, RpcStatus>({
-      path: `/VelaChain/vela/market/provider`,
-      method: "GET",
-      query: query,
-      format: "json",
-      ...params,
-    });
-
-  /**
-   * No description
-   *
-   * @tags Query
-   * @name QueryProvider
-   * @summary Queries a Provider by index.
-   * @request GET:/VelaChain/vela/market/provider/{denomA}/{denomB}
-   */
-  queryProvider = (denomA: string, denomB: string, params: RequestParams = {}) =>
-    this.request<MarketQueryGetProviderResponse, RpcStatus>({
-      path: `/VelaChain/vela/market/provider/${denomA}/${denomB}`,
       method: "GET",
       format: "json",
       ...params,

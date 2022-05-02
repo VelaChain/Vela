@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { Params } from "../market/params";
 import { Pool } from "../market/pool";
-import { Provider } from "../market/provider";
 import { LiqProv } from "../market/liq_prov";
 import { Writer, Reader } from "protobufjs/minimal";
 
@@ -12,7 +11,6 @@ export interface GenesisState {
   params: Params | undefined;
   port_id: string;
   poolList: Pool[];
-  providerList: Provider[];
   /** this line is used by starport scaffolding # genesis/proto/state */
   liqProvList: LiqProv[];
 }
@@ -30,11 +28,8 @@ export const GenesisState = {
     for (const v of message.poolList) {
       Pool.encode(v!, writer.uint32(26).fork()).ldelim();
     }
-    for (const v of message.providerList) {
-      Provider.encode(v!, writer.uint32(34).fork()).ldelim();
-    }
     for (const v of message.liqProvList) {
-      LiqProv.encode(v!, writer.uint32(42).fork()).ldelim();
+      LiqProv.encode(v!, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -44,7 +39,6 @@ export const GenesisState = {
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
     message.poolList = [];
-    message.providerList = [];
     message.liqProvList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
@@ -59,9 +53,6 @@ export const GenesisState = {
           message.poolList.push(Pool.decode(reader, reader.uint32()));
           break;
         case 4:
-          message.providerList.push(Provider.decode(reader, reader.uint32()));
-          break;
-        case 5:
           message.liqProvList.push(LiqProv.decode(reader, reader.uint32()));
           break;
         default:
@@ -75,7 +66,6 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.poolList = [];
-    message.providerList = [];
     message.liqProvList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
@@ -90,11 +80,6 @@ export const GenesisState = {
     if (object.poolList !== undefined && object.poolList !== null) {
       for (const e of object.poolList) {
         message.poolList.push(Pool.fromJSON(e));
-      }
-    }
-    if (object.providerList !== undefined && object.providerList !== null) {
-      for (const e of object.providerList) {
-        message.providerList.push(Provider.fromJSON(e));
       }
     }
     if (object.liqProvList !== undefined && object.liqProvList !== null) {
@@ -117,13 +102,6 @@ export const GenesisState = {
     } else {
       obj.poolList = [];
     }
-    if (message.providerList) {
-      obj.providerList = message.providerList.map((e) =>
-        e ? Provider.toJSON(e) : undefined
-      );
-    } else {
-      obj.providerList = [];
-    }
     if (message.liqProvList) {
       obj.liqProvList = message.liqProvList.map((e) =>
         e ? LiqProv.toJSON(e) : undefined
@@ -137,7 +115,6 @@ export const GenesisState = {
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.poolList = [];
-    message.providerList = [];
     message.liqProvList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
@@ -152,11 +129,6 @@ export const GenesisState = {
     if (object.poolList !== undefined && object.poolList !== null) {
       for (const e of object.poolList) {
         message.poolList.push(Pool.fromPartial(e));
-      }
-    }
-    if (object.providerList !== undefined && object.providerList !== null) {
-      for (const e of object.providerList) {
-        message.providerList.push(Provider.fromPartial(e));
       }
     }
     if (object.liqProvList !== undefined && object.liqProvList !== null) {

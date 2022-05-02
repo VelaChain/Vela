@@ -13,7 +13,6 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		PortId:       PortID,
 		PoolList:     []Pool{},
-		ProviderList: []Provider{},
 		LiqProvList:  []LiqProv{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
@@ -35,16 +34,6 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for pool")
 		}
 		poolIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in provider
-	providerIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.ProviderList {
-		index := string(ProviderKey(elem.DenomA, elem.DenomB))
-		if _, ok := providerIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for provider")
-		}
-		providerIndexMap[index] = struct{}{}
 	}
 	// Check for duplicated index in liqProv
 	liqProvIndexMap := make(map[string]struct{})

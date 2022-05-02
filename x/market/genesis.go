@@ -13,10 +13,6 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.PoolList {
 		k.SetPool(ctx, elem)
 	}
-	// Set all the provider
-	for _, elem := range genState.ProviderList {
-		k.SetProvider(ctx, elem)
-	}
 	// Set all the liqProv
 	for _, elem := range genState.LiqProvList {
 		k.SetLiqProv(ctx, elem)
@@ -43,7 +39,6 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 
 	genesis.PortId = k.GetPort(ctx)
 	genesis.PoolList = k.GetAllPool(ctx)
-	genesis.ProviderList = k.GetAllProvider(ctx)
 	genesis.LiqProvList = k.GetAllLiqProv(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
