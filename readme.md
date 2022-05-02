@@ -33,12 +33,11 @@ velad tx market swap [amount-in] [denom-in] [min-amount-out] [denom-out]
 `swap` adds amount-in to pool for at least min-amount-out using amount-out = amount-in x pool-amount-out/pool-amount-in
 
 ```
-
-```
 velad tx market send-shares [shares] [denom-a] [denom-b] [address]
 ```
 `send-shares` adds shares to liq prov w/ address and removes shares from creator's liq prov
 
+```
 velad q market list-pool
 ```
 `list-pool` lists the state of the current pools
