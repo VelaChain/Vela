@@ -7,43 +7,44 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) validateAddLiquidityMsg(ctx sdk.Context, msg *types.MsgAddLiquidity) error {
+func (k msgServer) validateAddLiquidityMsg(ctx sdk.Context, msg *types.MsgAddLiquidity) (msgAmountA sdk.Int, msgAmountB sdk.Int, msgShares sdk.Int, accAddr sdk.AccAddress, err error) {
 	// check ints from strings ok
 	msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
 	if !ok {
-		return types.ErrConvertAmountAToInt
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrConvertAmountAToInt
 	}
-	msgAmountB, ok := sdk.NewIntFromString(msg.AmountB)
+	msgAmountB, ok = sdk.NewIntFromString(msg.AmountB)
 	if !ok {
-		return types.ErrConvertAmountBToInt
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrConvertAmountBToInt
 	}
-	_, ok = sdk.NewIntFromString(msg.MinShares)
+	msgShares, ok = sdk.NewIntFromString(msg.MinShares)
 	if !ok {
-		return types.ErrConvertSharesToInt
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrConvertSharesToInt
 	}
 	// check different denoms
 	if msg.DenomA == msg.DenomB {
-		return types.ErrDenomsSame
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrDenomsSame
 	}
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	accAddr, err = sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return err
+		return msgAmountA, msgAmountB, msgShares, accAddr, err
 	}
 	// check account balances
 	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomA, msgAmountA)) {
-		return types.ErrInsufficientBalanceA
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrInsufficientBalanceA
 	}
 	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomB, msgAmountB)) {
-		return types.ErrInsufficientBalanceB
+		return msgAmountA, msgAmountB, msgShares, accAddr, types.ErrInsufficientBalanceB
 	}
 
-	return nil
+	return msgAmountA, msgAmountB, msgShares, accAddr, nil
 }
 func (k msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidity) (*types.MsgAddLiquidityResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// validate params and balances are available
-	if err := k.validateAddLiquidityMsg(ctx, msg); err != nil {
+	msgAmountA, msgAmountB, msgShares, accAddr, err := k.validateAddLiquidityMsg(ctx, msg)
+	if err != nil {
 		return &types.MsgAddLiquidityResponse{}, err
 	}
 	// check if pool exists
@@ -58,14 +59,14 @@ func (k msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidit
 		return &types.MsgAddLiquidityResponse{}, types.ErrLiqProvDNE
 	}
 	// convert strings to skd.Int
-	msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
-	if !ok {
-		return &types.MsgAddLiquidityResponse{}, types.ErrConvertAmountAToInt
-	}
-	msgAmountB, ok := sdk.NewIntFromString(msg.AmountB)
-	if !ok {
-		return &types.MsgAddLiquidityResponse{}, types.ErrConvertAmountBToInt
-	}
+	// msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
+	// if !ok {
+	// 	return &types.MsgAddLiquidityResponse{}, types.ErrConvertAmountAToInt
+	// }
+	// msgAmountB, ok := sdk.NewIntFromString(msg.AmountB)
+	// if !ok {
+	// 	return &types.MsgAddLiquidityResponse{}, types.ErrConvertAmountBToInt
+	// }
 	poolAmountA, ok := sdk.NewIntFromString(pool.AmountA)
 	if !ok {
 		return &types.MsgAddLiquidityResponse{}, types.ErrConvertAmountAToInt
@@ -78,10 +79,10 @@ func (k msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidit
 	if !ok {
 		return &types.MsgAddLiquidityResponse{}, types.ErrConvertSharesToInt
 	}
-	msgShares, ok := sdk.NewIntFromString(msg.MinShares)
-	if !ok {
-		return &types.MsgAddLiquidityResponse{}, types.ErrConvertSharesToInt
-	}
+	// msgShares, ok := sdk.NewIntFromString(msg.MinShares)
+	// if !ok {
+	// 	return &types.MsgAddLiquidityResponse{}, types.ErrConvertSharesToInt
+	// }
 	provShares, ok := sdk.NewIntFromString(liqProv.ShareAmount)
 	if !ok {
 		return &types.MsgAddLiquidityResponse{}, types.ErrConvertSharesToInt
@@ -97,10 +98,10 @@ func (k msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidit
 		return &types.MsgAddLiquidityResponse{}, types.ErrNotEnoughSharesOut
 	}
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return &types.MsgAddLiquidityResponse{}, types.ErrAccAddressFromMsg
-	}
+	// accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	// if err != nil {
+	// 	return &types.MsgAddLiquidityResponse{}, types.ErrAccAddressFromMsg
+	// }
 	// create coins to send
 	coinA := sdk.NewCoin(msg.DenomA, msgAmountA)
 	coinB := sdk.NewCoin(msg.DenomB, msgAmountB)
