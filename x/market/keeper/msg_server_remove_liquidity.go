@@ -7,26 +7,27 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) validateRemoveLiquidityMsg(ctx sdk.Context, msg *types.MsgRemoveLiquidity) error {
-	if _, ok := sdk.NewIntFromString(msg.Shares); !ok {
-		return types.ErrConvertSharesToInt
+func (k msgServer) validateRemoveLiquidityMsg(ctx sdk.Context, msg *types.MsgRemoveLiquidity) (msgShares sdk.Int, accAddr sdk.AccAddress, err error) {
+	if msgShares, ok := sdk.NewIntFromString(msg.Shares); !ok {
+		return msgShares, accAddr, types.ErrConvertSharesToInt
 	}
 
 	if msg.DenomA == msg.DenomB {
-		return types.ErrDenomsSame
+		return msgShares, accAddr, types.ErrDenomsSame
 	}
 
-	if _, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
-		return types.ErrAccAddressFromMsg
+	if accAddr, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
+		return msgShares, accAddr, types.ErrAccAddressFromMsg
 	}
-	return nil
+	return msgShares, accAddr, nil
 }
 
 func (k msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLiquidity) (*types.MsgRemoveLiquidityResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// validate message
-	if err := k.validateRemoveLiquidityMsg(ctx, msg); err != nil {
+	msgShares, accAddr, err := k.validateRemoveLiquidityMsg(ctx, msg)
+	if err != nil {
 		return &types.MsgRemoveLiquidityResponse{}, err
 	}
 	// check if pool exists
@@ -41,10 +42,10 @@ func (k msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrLiqProvDNE
 	}
 	// get msg shares as sdk int
-	msgShares, ok := sdk.NewIntFromString(msg.Shares)
-	if !ok {
-		return &types.MsgRemoveLiquidityResponse{}, types.ErrConvertSharesToInt
-	}
+	// msgShares, ok := sdk.NewIntFromString(msg.Shares)
+	// if !ok {
+	// 	return &types.MsgRemoveLiquidityResponse{}, types.ErrConvertSharesToInt
+	// }
 	// get liq prov shares as sdk int
 	provShares, ok := sdk.NewIntFromString(liqProv.ShareAmount)
 	if !ok {
@@ -78,10 +79,10 @@ func (k msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrProviderEmptyRemove
 	}
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return &types.MsgRemoveLiquidityResponse{}, err
-	}
+	// accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	// if err != nil {
+	// 	return &types.MsgRemoveLiquidityResponse{}, err
+	// }
 	// create coins to send
 	coinA := sdk.NewCoin(msg.DenomA, amountOutA)
 	coinB := sdk.NewCoin(msg.DenomB, amountOutB)
