@@ -12,10 +12,10 @@ func (k msgServer) validateSendSharesMsg(ctx sdk.Context, msg *types.MsgSendShar
 		return types.ErrDenomsSame
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Creator); err != nil {
-		return types.AccAddressFromBech32
+		return types.ErrAccAddressFromMsg
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Address); err != nil {
-		return types.AccAddressFromBech32
+		return types.ErrAccAddressFromMsg
 	}
 	return nil
 }
