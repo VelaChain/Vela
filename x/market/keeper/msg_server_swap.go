@@ -7,38 +7,39 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k msgServer) validateSwapMsg(ctx sdk.Context, msg *types.MsgSwap) error {
+func (k msgServer) validateSwapMsg(ctx sdk.Context, msg *types.MsgSwap) (amountIn sdk.Int, amountOut sdk.Int, accAddr sdk.AccAddress, err error) {
 	amountIn, ok := sdk.NewIntFromString(msg.AmountIn)
 	if !ok {
-		return types.ErrConvertAmountIn
+		return amountIn, amountOut, accAddr, types.ErrConvertAmountIn
 	}
 
-	_, ok = sdk.NewIntFromString(msg.MinAmountOut)
+	amountOut, ok = sdk.NewIntFromString(msg.MinAmountOut)
 	if !ok {
-		return types.ErrConvertAmountOut
+		return amountIn, amountOut, accAddr, types.ErrConvertAmountOut
 	}
 
 	if msg.DenomIn == msg.DenomOut {
-		return types.ErrDenomsSame
+		return amountIn, amountOut, accAddr, types.ErrDenomsSame
 	}
 
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	accAddr, err = sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return types.ErrAccAddressFromMsg
+		return amountIn, amountOut, accAddr, types.ErrAccAddressFromMsg
 	}
 
 	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomIn, amountIn)) {
-		return types.ErrInsufficientBalanceIn
+		return amountIn, amountOut, accAddr, types.ErrInsufficientBalanceIn
 	}
 
-	return nil
+	return amountIn, amountOut, accAddr,  nil
 }
 
 func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSwapResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// validate message
-	if err := k.validateSwapMsg(ctx, msg); err != nil {
+	msgAmountIn, minAmountOut, accAddr, err := k.validateSwapMsg(ctx, msg)
+	if err != nil {
 		return &types.MsgSwapResponse{}, err
 	}
 	// get denoms in order to get pool
@@ -54,14 +55,14 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return &types.MsgSwapResponse{}, types.ErrPoolDNE
 	}
 	// get msg amounts as sdk int
-	msgAmountIn, ok := sdk.NewIntFromString(msg.AmountIn)
-	if !ok {
-		return &types.MsgSwapResponse{}, types.ErrConvertAmountIn
-	}
-	minAmountOut, ok := sdk.NewIntFromString(msg.MinAmountOut)
-	if !ok {
-		return &types.MsgSwapResponse{}, types.ErrConvertAmountOut
-	}
+	// msgAmountIn, ok := sdk.NewIntFromString(msg.AmountIn)
+	// if !ok {
+	// 	return &types.MsgSwapResponse{}, types.ErrConvertAmountIn
+	// }
+	// minAmountOut, ok := sdk.NewIntFromString(msg.MinAmountOut)
+	// if !ok {
+	// 	return &types.MsgSwapResponse{}, types.ErrConvertAmountOut
+	// }
 	// get pool amounts as sdk int
 	poolAmountA, ok := sdk.NewIntFromString(pool.AmountA)
 	if !ok {
@@ -95,10 +96,10 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return &types.MsgSwapResponse{}, types.ErrPoolAmountBZero
 	}
 	// get creator acc address
-	accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return &types.MsgSwapResponse{}, types.ErrAccAddressFromMsg
-	}
+	// accAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+	// if err != nil {
+	// 	return &types.MsgSwapResponse{}, types.ErrAccAddressFromMsg
+	// }
 	// create coins to send
 	coinIn := sdk.NewCoin(msg.DenomIn, msgAmountIn)
 	coinOut := sdk.NewCoin(msg.DenomOut, amountOut)
