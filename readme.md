@@ -1,13 +1,46 @@
 # vela
 **vela** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://starport.com).
 
-## Get started
+## Velad Commands
+```
+velad tx market create-pool [amount-a] [denom-a] [amount-b] [denom-b] [min-shares]
+```
+`create-pool` command creates a new pool for the given denom pair, if no such pool already exists, and creates a liquidity provider with min-shares
 
 ```
-starport chain serve
+velad tx market join-pool [amount-a] [denom-a] [amount-b] [denom-b] [min-shares]
 ```
+`join-pool` command creates a new liquidity provider with at least min-shares for the pool associated with the given denom pair 
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
+```
+velad tx market add-liquidity [amount-a] [denom-a] [amount-b] [denom-b] [min-shares]
+```
+`add-liquidity` command adds at least min-shares to an existing liquidity provider for the pool associated with the given denom pair
+
+```
+velad tx market exit-pool [denom-a] [denom-b] 
+```
+`exit-pool` removes all shares from the creator's liquidity provider and removes the provider from the pool with the given denom pair
+
+```
+velad tx market remove-liquidity [shares] [denom-a] [denom-b]
+```
+`remove-liquidity` removes some, but not all, shares from the liquidity provider for pool associated with the given denom pair
+
+```
+velad tx market swap [amount-in] [denom-in] [min-amount-out] [denom-out]
+```
+`swap` adds amount-in to pool for at least min-amount-out using amount-out = amount-in x pool-amount-out/pool-amount-in
+
+```
+velad q market list-pool
+```
+`list-pool` lists the state of the current pools
+
+```
+velad q market list-liq-prov
+``` 
+`list-liq-prov` lists the state of the current liquidity providers
 
 ### Configure
 
@@ -42,11 +75,3 @@ To install the latest version of your blockchain node's binary, execute the foll
 curl https://get.starport.com/VelaChain/vela@latest! | sudo bash
 ```
 `VelaChain/vela` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
-
-## Learn more
-
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
