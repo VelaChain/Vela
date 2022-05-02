@@ -72,6 +72,10 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	newShares := poolShares.Sub(provShares)
 	// remove liq prov
 	k.Keeper.RemoveLiqProv(ctx, poolName, msg.Creator)
+	// delete pool if empty
+	if newAmountA.IsZero() && newAmountB.IsZero() && newShares.IsZero() {
+		k.Keeper.RemovePool(ctx, pool.DenomA, pool.DenomB)
+	}
 	// get new pool
 	newPool := types.NewPool(newAmountA.String(), msg.DenomA, newAmountB.String(), msg.DenomB, newShares.String())
 	// set pool
