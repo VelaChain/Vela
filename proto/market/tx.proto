@@ -13,6 +13,7 @@ service Msg {
   rpc ExitPool(MsgExitPool) returns (MsgExitPoolResponse);
   rpc RemoveLiquidity(MsgRemoveLiquidity) returns (MsgRemoveLiquidityResponse);
   rpc Swap(MsgSwap) returns (MsgSwapResponse);
+  rpc SendShares(MsgSendShares) returns (MsgSendSharesResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -80,6 +81,17 @@ message MsgSwap {
 }
 
 message MsgSwapResponse {
+}
+
+message MsgSendShares {
+  string creator = 1;
+  string shares = 2;
+  string denomA = 3;
+  string denomB = 4;
+  string address = 5;
+}
+
+message MsgSendSharesResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

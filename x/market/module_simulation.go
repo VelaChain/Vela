@@ -48,6 +48,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgSwap int = 100
 
+	opWeightMsgSendShares = "op_weight_msg_send_shares"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSendShares int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -147,6 +151,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgSwap,
 		marketsimulation.SimulateMsgSwap(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgSendShares int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgSendShares, &weightMsgSendShares, nil,
+		func(_ *rand.Rand) {
+			weightMsgSendShares = defaultWeightMsgSendShares
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSendShares,
+		marketsimulation.SimulateMsgSendShares(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

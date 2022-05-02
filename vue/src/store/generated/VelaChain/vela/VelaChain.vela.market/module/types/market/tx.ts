@@ -63,6 +63,16 @@ export interface MsgSwap {
 
 export interface MsgSwapResponse {}
 
+export interface MsgSendShares {
+  creator: string;
+  shares: string;
+  denomA: string;
+  denomB: string;
+  address: string;
+}
+
+export interface MsgSendSharesResponse {}
+
 const baseMsgCreatePool: object = {
   creator: "",
   amountA: "",
@@ -1087,6 +1097,173 @@ export const MsgSwapResponse = {
   },
 };
 
+const baseMsgSendShares: object = {
+  creator: "",
+  shares: "",
+  denomA: "",
+  denomB: "",
+  address: "",
+};
+
+export const MsgSendShares = {
+  encode(message: MsgSendShares, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.shares !== "") {
+      writer.uint32(18).string(message.shares);
+    }
+    if (message.denomA !== "") {
+      writer.uint32(26).string(message.denomA);
+    }
+    if (message.denomB !== "") {
+      writer.uint32(34).string(message.denomB);
+    }
+    if (message.address !== "") {
+      writer.uint32(42).string(message.address);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgSendShares {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgSendShares } as MsgSendShares;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.shares = reader.string();
+          break;
+        case 3:
+          message.denomA = reader.string();
+          break;
+        case 4:
+          message.denomB = reader.string();
+          break;
+        case 5:
+          message.address = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgSendShares {
+    const message = { ...baseMsgSendShares } as MsgSendShares;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.shares !== undefined && object.shares !== null) {
+      message.shares = String(object.shares);
+    } else {
+      message.shares = "";
+    }
+    if (object.denomA !== undefined && object.denomA !== null) {
+      message.denomA = String(object.denomA);
+    } else {
+      message.denomA = "";
+    }
+    if (object.denomB !== undefined && object.denomB !== null) {
+      message.denomB = String(object.denomB);
+    } else {
+      message.denomB = "";
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = String(object.address);
+    } else {
+      message.address = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgSendShares): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.shares !== undefined && (obj.shares = message.shares);
+    message.denomA !== undefined && (obj.denomA = message.denomA);
+    message.denomB !== undefined && (obj.denomB = message.denomB);
+    message.address !== undefined && (obj.address = message.address);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgSendShares>): MsgSendShares {
+    const message = { ...baseMsgSendShares } as MsgSendShares;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.shares !== undefined && object.shares !== null) {
+      message.shares = object.shares;
+    } else {
+      message.shares = "";
+    }
+    if (object.denomA !== undefined && object.denomA !== null) {
+      message.denomA = object.denomA;
+    } else {
+      message.denomA = "";
+    }
+    if (object.denomB !== undefined && object.denomB !== null) {
+      message.denomB = object.denomB;
+    } else {
+      message.denomB = "";
+    }
+    if (object.address !== undefined && object.address !== null) {
+      message.address = object.address;
+    } else {
+      message.address = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgSendSharesResponse: object = {};
+
+export const MsgSendSharesResponse = {
+  encode(_: MsgSendSharesResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgSendSharesResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgSendSharesResponse } as MsgSendSharesResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgSendSharesResponse {
+    const message = { ...baseMsgSendSharesResponse } as MsgSendSharesResponse;
+    return message;
+  },
+
+  toJSON(_: MsgSendSharesResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgSendSharesResponse>): MsgSendSharesResponse {
+    const message = { ...baseMsgSendSharesResponse } as MsgSendSharesResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreatePool(request: MsgCreatePool): Promise<MsgCreatePoolResponse>;
@@ -1096,8 +1273,9 @@ export interface Msg {
   RemoveLiquidity(
     request: MsgRemoveLiquidity
   ): Promise<MsgRemoveLiquidityResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   Swap(request: MsgSwap): Promise<MsgSwapResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  SendShares(request: MsgSendShares): Promise<MsgSendSharesResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -1167,6 +1345,18 @@ export class MsgClientImpl implements Msg {
     const data = MsgSwap.encode(request).finish();
     const promise = this.rpc.request("VelaChain.vela.market.Msg", "Swap", data);
     return promise.then((data) => MsgSwapResponse.decode(new Reader(data)));
+  }
+
+  SendShares(request: MsgSendShares): Promise<MsgSendSharesResponse> {
+    const data = MsgSendShares.encode(request).finish();
+    const promise = this.rpc.request(
+      "VelaChain.vela.market.Msg",
+      "SendShares",
+      data
+    );
+    return promise.then((data) =>
+      MsgSendSharesResponse.decode(new Reader(data))
+    );
   }
 }
 

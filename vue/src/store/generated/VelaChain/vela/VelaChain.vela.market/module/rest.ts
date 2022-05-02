@@ -25,6 +25,8 @@ export type MarketMsgJoinPoolResponse = object;
 
 export type MarketMsgRemoveLiquidityResponse = object;
 
+export type MarketMsgSendSharesResponse = object;
+
 export type MarketMsgSwapResponse = object;
 
 /**

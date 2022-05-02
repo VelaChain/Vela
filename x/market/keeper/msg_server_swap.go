@@ -11,7 +11,7 @@ func (k msgServer) validateSwapMsg(ctx sdk.Context, msg *types.MsgSwap) error {
 	amountIn, ok := sdk.NewIntFromString(msg.AmountIn)
 	if !ok {
 		return types.ErrConvertAmountIn
-	} 	
+	}
 
 	_, ok = sdk.NewIntFromString(msg.MinAmountOut)
 	if !ok {
@@ -27,7 +27,7 @@ func (k msgServer) validateSwapMsg(ctx sdk.Context, msg *types.MsgSwap) error {
 		return types.ErrAccAddressFromMsg
 	}
 
-	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomIn, amountIn)){
+	if !k.bankKeeper.HasBalance(ctx, accAddr, sdk.NewCoin(msg.DenomIn, amountIn)) {
 		return types.ErrInsufficientBalanceIn
 	}
 
@@ -57,7 +57,7 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 	msgAmountIn, ok := sdk.NewIntFromString(msg.AmountIn)
 	if !ok {
 		return &types.MsgSwapResponse{}, types.ErrConvertAmountIn
-	} 
+	}
 	minAmountOut, ok := sdk.NewIntFromString(msg.MinAmountOut)
 	if !ok {
 		return &types.MsgSwapResponse{}, types.ErrConvertAmountOut
@@ -73,7 +73,7 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 	}
 	// get asset out amount and pool balances
 	var amountOut, newAmountA, newAmountB sdk.Int
-	if (pool.DenomA == msg.DenomIn){
+	if pool.DenomA == msg.DenomIn {
 		// amount out b denom
 		amountOut = msgAmountIn.Mul(poolAmountB).Quo(poolAmountA)
 		newAmountA = poolAmountA.Add(msgAmountIn)
@@ -109,7 +109,7 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 	}
 	// send coins out from module to account
 	err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, accAddr, sdk.NewCoins(coinOut))
-	if err != nil{
+	if err != nil {
 		return &types.MsgSwapResponse{}, err
 	}
 	// get new pool
