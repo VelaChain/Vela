@@ -93,8 +93,13 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 		return &types.MsgJoinPoolResponse{}, types.ErrInvalidRatio
 	}
 	// get new shares out
-	newShares := msgAmountA.Mul(poolShares).Quo(poolAmountA)
-	// check shares are sufficient
+	var newShares sdk.Int
+	if poolShares.IsZero(){
+		newShares = msgShares
+	} else {
+		newShares = msgAmountA.Mul(poolShares).Quo(poolAmountA)
+	}
+		// check shares are sufficient
 	if newShares.LT(msgShares) {
 		return &types.MsgJoinPoolResponse{}, types.ErrNotEnoughSharesOut
 	}

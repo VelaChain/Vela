@@ -1,5 +1,10 @@
 package types
 
+const (
+	DefaultExitFee = "0.01"
+	DefaultSwapFee = "0.01"
+)
+
 func NewPool(amountA, denomA, amountB, denomB, shares string) Pool {
 	return Pool{
 		AmountA: amountA,

@@ -36,4 +36,7 @@ var (
 	ErrPoolAmountAZero       = sdkerrors.Register(ModuleName, 2022, "pool amount A zero")
 	ErrPoolAmountBZero       = sdkerrors.Register(ModuleName, 2023, "pool amount b zero")
 	ErrShareAmountNotPos	 = sdkerrors.Register(ModuleName, 2024, "shares amount not positive")
+	ErrExitfeeAmountNotPos	 = sdkerrors.Register(ModuleName, 2025, "exit fee amount not positive")
+	ErrConvertFeeToDec		 = sdkerrors.Register(ModuleName, 2026, "cannot convert fee to dec")
+	ErrSwapFeeAmountNotPos	 = sdkerrors.Register(ModuleName, 2027, "swap fee amount not positive")
 )
