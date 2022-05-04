@@ -5,6 +5,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
+
 func AOutGivenShares(poolAmountA, poolShares, provShares sdk.Int) sdk.Int {
 	// get ratio pool amount A / pool shares
 	poolRatioAtoShares := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolShares))
@@ -53,29 +54,4 @@ func CheckRatios(poolAmountA, poolAmountB, msgAmountA, msgAmountB sdk.Int) error
 		return sdkerrors.Wrapf(ErrInvalidRatio, "For %s beta you must add %s alpha", msgAmountB.String(), needA.String())
 	}
 	return nil
-}
-
-func NewPool(amountA, denomA, amountB, denomB, shares string) Pool {
-	return Pool{
-		AmountA: amountA,
-		DenomA:  denomA,
-		AmountB: amountB,
-		DenomB:  denomB,
-		Shares:  shares,
-	}
-}
-
-func NewPoolName(denomA, denomB string) string {
-	if denomA > denomB {
-		return denomB + "-" + denomA
-	}
-	return denomA + "-" + denomB
-}
-
-func NewLiqProv(shareAmount, poolName, address string) LiqProv {
-	return LiqProv{
-		ShareAmount: shareAmount,
-		PoolName:    poolName,
-		Address:     address,
-	}
 }
