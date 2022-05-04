@@ -44,6 +44,14 @@ func TestGenesis(t *testing.T) {
 				Address:  "1",
 			},
 		},
+		FeeMapList: []types.FeeMap{
+			{
+				PoolName: "0",
+			},
+			{
+				PoolName: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -60,5 +68,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.PoolList, got.PoolList)
 	require.ElementsMatch(t, genesisState.ProviderList, got.ProviderList)
 	require.ElementsMatch(t, genesisState.LiqProvList, got.LiqProvList)
+	require.ElementsMatch(t, genesisState.FeeMapList, got.FeeMapList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

@@ -9,6 +9,12 @@
  * ---------------------------------------------------------------
  */
 
+export interface MarketFeeMap {
+  poolName?: string;
+  swap?: string;
+  exit?: string;
+}
+
 export interface MarketLiqProv {
   poolName?: string;
   address?: string;
@@ -42,6 +48,21 @@ export interface MarketPool {
   shares?: string;
 }
 
+export interface MarketQueryAllFeeMapResponse {
+  feeMap?: MarketFeeMap[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface MarketQueryAllLiqProvResponse {
   liqProv?: MarketLiqProv[];
 
@@ -70,6 +91,10 @@ export interface MarketQueryAllPoolResponse {
    *  }
    */
   pagination?: V1Beta1PageResponse;
+}
+
+export interface MarketQueryGetFeeMapResponse {
+  feeMap?: MarketFeeMap;
 }
 
 export interface MarketQueryGetLiqProvResponse {
@@ -354,10 +379,52 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title market/genesis.proto
+ * @title market/fee_map.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryFeeMapAll
+   * @summary Queries a list of FeeMap items.
+   * @request GET:/VelaChain/vela/market/fee_map
+   */
+  queryFeeMapAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MarketQueryAllFeeMapResponse, RpcStatus>({
+      path: `/VelaChain/vela/market/fee_map`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryFeeMap
+   * @summary Queries a FeeMap by index.
+   * @request GET:/VelaChain/vela/market/fee_map/{poolName}
+   */
+  queryFeeMap = (poolName: string, params: RequestParams = {}) =>
+    this.request<MarketQueryGetFeeMapResponse, RpcStatus>({
+      path: `/VelaChain/vela/market/fee_map/${poolName}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

@@ -31,7 +31,7 @@ func (k msgServer) validateSwapMsg(ctx sdk.Context, msg *types.MsgSwap) (amountI
 		return amountIn, amountOut, accAddr, types.ErrInsufficientBalanceIn
 	}
 
-	return amountIn, amountOut, accAddr,  nil
+	return amountIn, amountOut, accAddr, nil
 }
 
 func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSwapResponse, error) {
@@ -72,12 +72,27 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 	if !ok {
 		return &types.MsgSwapResponse{}, types.ErrConvertAmountBToInt
 	}
-
-	// only swap with msg amount in - fee amount
-	swapAmount, err := types.ApplySwapFee(msgAmountIn)
+	// get fees for swap
+	poolName := types.NewPoolName(pool.DenomA, pool.DenomB)
+	fees, found := k.Keeper.GetFeeMap(ctx, poolName) 
+	if !found {
+		return &types.MsgSwapResponse{}, types.ErrFeeMapDNE
+	}
+	// get swap fee as sdk dec
+	swapFee, err := sdk.NewDecFromStr(fees.Swap)
 	if err != nil {
 		return &types.MsgSwapResponse{}, err
 	}
+	// apply swap fee to amount in
+	swapAmount, err := types.ApplyFee(msgAmountIn, swapFee)
+	if err != nil {
+		return &types.MsgSwapResponse{}, err
+	}
+	// // only swap with msg amount in - fee amount
+	// swapAmount, err := types.ApplySwapFee(msgAmountIn)
+	// if err != nil {
+	// 	return &types.MsgSwapResponse{}, err
+	// }
 	// get asset out amount and pool balances
 	var amountOut, newAmountA, newAmountB sdk.Int
 	if pool.DenomA == msg.DenomIn {

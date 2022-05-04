@@ -51,8 +51,23 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	if !ok {
 		return &types.MsgExitPoolResponse{}, types.ErrConvertSharesToInt
 	}
-	// use provShares - feeAmount for amounts out
-	remShares, err := types.ApplyExitFee(provShares)
+	// // use provShares - feeAmount for amounts out
+	// remShares, err := types.ApplyExitFee(provShares)
+	// if err != nil {
+	// 	return &types.MsgExitPoolResponse{}, err
+	// }
+	// get fees for exit
+	fees, found := k.Keeper.GetFeeMap(ctx, poolName) 
+	if !found {
+		return &types.MsgExitPoolResponse{}, types.ErrFeeMapDNE
+	}
+	// get exit fee as sdk dec
+	exitFee, err := sdk.NewDecFromStr(fees.Exit)
+	if err != nil {
+		return &types.MsgExitPoolResponse{}, err 
+	}
+	// apply exit fee to provShares
+	remShares, err := types.ApplyFee(provShares, exitFee)
 	if err != nil {
 		return &types.MsgExitPoolResponse{}, err
 	}
@@ -61,7 +76,7 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	if !amountOutA.IsPositive() {
 		return &types.MsgExitPoolResponse{}, types.ErrAmountOutANotPos
 	}
-	amountOutB := types.BOutGivenShares(poolAmountB, poolShares, remShares) 
+	amountOutB := types.BOutGivenShares(poolAmountB, poolShares, remShares)
 	if !amountOutB.IsPositive() {
 		return &types.MsgExitPoolResponse{}, types.ErrAmountOutBNotPos
 	}

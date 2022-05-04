@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "market/params.proto";
 import "market/pool.proto";
 import "market/liq_prov.proto";
+import "market/fee_map.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/VelaChain/vela/x/market/types";
@@ -35,6 +36,16 @@ service Query {
 	// Queries a list of LiqProv items.
 	rpc LiqProvAll(QueryAllLiqProvRequest) returns (QueryAllLiqProvResponse) {
 		option (google.api.http).get = "/VelaChain/vela/market/liq_prov";
+	}
+
+// Queries a FeeMap by index.
+	rpc FeeMap(QueryGetFeeMapRequest) returns (QueryGetFeeMapResponse) {
+		option (google.api.http).get = "/VelaChain/vela/market/fee_map/{poolName}";
+	}
+
+	// Queries a list of FeeMap items.
+	rpc FeeMapAll(QueryAllFeeMapRequest) returns (QueryAllFeeMapResponse) {
+		option (google.api.http).get = "/VelaChain/vela/market/fee_map";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -84,6 +95,24 @@ message QueryAllLiqProvRequest {
 
 message QueryAllLiqProvResponse {
 	repeated LiqProv liqProv = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetFeeMapRequest {
+	  string poolName = 1;
+
+}
+
+message QueryGetFeeMapResponse {
+	FeeMap feeMap = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllFeeMapRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllFeeMapResponse {
+	repeated FeeMap feeMap = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

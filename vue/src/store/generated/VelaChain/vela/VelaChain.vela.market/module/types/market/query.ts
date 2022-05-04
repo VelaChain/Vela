@@ -7,6 +7,7 @@ import {
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
 import { LiqProv } from "../market/liq_prov";
+import { FeeMap } from "../market/fee_map";
 
 export const protobufPackage = "VelaChain.vela.market";
 
@@ -52,6 +53,23 @@ export interface QueryAllLiqProvRequest {
 
 export interface QueryAllLiqProvResponse {
   liqProv: LiqProv[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetFeeMapRequest {
+  poolName: string;
+}
+
+export interface QueryGetFeeMapResponse {
+  feeMap: FeeMap | undefined;
+}
+
+export interface QueryAllFeeMapRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllFeeMapResponse {
+  feeMap: FeeMap[];
   pagination: PageResponse | undefined;
 }
 
@@ -742,6 +760,282 @@ export const QueryAllLiqProvResponse = {
   },
 };
 
+const baseQueryGetFeeMapRequest: object = { poolName: "" };
+
+export const QueryGetFeeMapRequest = {
+  encode(
+    message: QueryGetFeeMapRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.poolName !== "") {
+      writer.uint32(10).string(message.poolName);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetFeeMapRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetFeeMapRequest } as QueryGetFeeMapRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.poolName = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetFeeMapRequest {
+    const message = { ...baseQueryGetFeeMapRequest } as QueryGetFeeMapRequest;
+    if (object.poolName !== undefined && object.poolName !== null) {
+      message.poolName = String(object.poolName);
+    } else {
+      message.poolName = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetFeeMapRequest): unknown {
+    const obj: any = {};
+    message.poolName !== undefined && (obj.poolName = message.poolName);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetFeeMapRequest>
+  ): QueryGetFeeMapRequest {
+    const message = { ...baseQueryGetFeeMapRequest } as QueryGetFeeMapRequest;
+    if (object.poolName !== undefined && object.poolName !== null) {
+      message.poolName = object.poolName;
+    } else {
+      message.poolName = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetFeeMapResponse: object = {};
+
+export const QueryGetFeeMapResponse = {
+  encode(
+    message: QueryGetFeeMapResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.feeMap !== undefined) {
+      FeeMap.encode(message.feeMap, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetFeeMapResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetFeeMapResponse } as QueryGetFeeMapResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.feeMap = FeeMap.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetFeeMapResponse {
+    const message = { ...baseQueryGetFeeMapResponse } as QueryGetFeeMapResponse;
+    if (object.feeMap !== undefined && object.feeMap !== null) {
+      message.feeMap = FeeMap.fromJSON(object.feeMap);
+    } else {
+      message.feeMap = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetFeeMapResponse): unknown {
+    const obj: any = {};
+    message.feeMap !== undefined &&
+      (obj.feeMap = message.feeMap ? FeeMap.toJSON(message.feeMap) : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetFeeMapResponse>
+  ): QueryGetFeeMapResponse {
+    const message = { ...baseQueryGetFeeMapResponse } as QueryGetFeeMapResponse;
+    if (object.feeMap !== undefined && object.feeMap !== null) {
+      message.feeMap = FeeMap.fromPartial(object.feeMap);
+    } else {
+      message.feeMap = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllFeeMapRequest: object = {};
+
+export const QueryAllFeeMapRequest = {
+  encode(
+    message: QueryAllFeeMapRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllFeeMapRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllFeeMapRequest } as QueryAllFeeMapRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllFeeMapRequest {
+    const message = { ...baseQueryAllFeeMapRequest } as QueryAllFeeMapRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllFeeMapRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllFeeMapRequest>
+  ): QueryAllFeeMapRequest {
+    const message = { ...baseQueryAllFeeMapRequest } as QueryAllFeeMapRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllFeeMapResponse: object = {};
+
+export const QueryAllFeeMapResponse = {
+  encode(
+    message: QueryAllFeeMapResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.feeMap) {
+      FeeMap.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllFeeMapResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllFeeMapResponse } as QueryAllFeeMapResponse;
+    message.feeMap = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.feeMap.push(FeeMap.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllFeeMapResponse {
+    const message = { ...baseQueryAllFeeMapResponse } as QueryAllFeeMapResponse;
+    message.feeMap = [];
+    if (object.feeMap !== undefined && object.feeMap !== null) {
+      for (const e of object.feeMap) {
+        message.feeMap.push(FeeMap.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllFeeMapResponse): unknown {
+    const obj: any = {};
+    if (message.feeMap) {
+      obj.feeMap = message.feeMap.map((e) =>
+        e ? FeeMap.toJSON(e) : undefined
+      );
+    } else {
+      obj.feeMap = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllFeeMapResponse>
+  ): QueryAllFeeMapResponse {
+    const message = { ...baseQueryAllFeeMapResponse } as QueryAllFeeMapResponse;
+    message.feeMap = [];
+    if (object.feeMap !== undefined && object.feeMap !== null) {
+      for (const e of object.feeMap) {
+        message.feeMap.push(FeeMap.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -754,6 +1048,10 @@ export interface Query {
   LiqProv(request: QueryGetLiqProvRequest): Promise<QueryGetLiqProvResponse>;
   /** Queries a list of LiqProv items. */
   LiqProvAll(request: QueryAllLiqProvRequest): Promise<QueryAllLiqProvResponse>;
+  /** Queries a FeeMap by index. */
+  FeeMap(request: QueryGetFeeMapRequest): Promise<QueryGetFeeMapResponse>;
+  /** Queries a list of FeeMap items. */
+  FeeMapAll(request: QueryAllFeeMapRequest): Promise<QueryAllFeeMapResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -818,6 +1116,30 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllLiqProvResponse.decode(new Reader(data))
+    );
+  }
+
+  FeeMap(request: QueryGetFeeMapRequest): Promise<QueryGetFeeMapResponse> {
+    const data = QueryGetFeeMapRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "VelaChain.vela.market.Query",
+      "FeeMap",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetFeeMapResponse.decode(new Reader(data))
+    );
+  }
+
+  FeeMapAll(request: QueryAllFeeMapRequest): Promise<QueryAllFeeMapResponse> {
+    const data = QueryAllFeeMapRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "VelaChain.vela.market.Query",
+      "FeeMapAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllFeeMapResponse.decode(new Reader(data))
     );
   }
 }

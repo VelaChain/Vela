@@ -17,6 +17,15 @@ func NewPoolName(denomA, denomB string) string {
 	return denomA + "-" + denomB
 }
 
+// TODO add fees to pool type 
+func NewFee(swapFee, exitFee, poolName string ) FeeMap {
+	return FeeMap{
+		Swap:		swapFee,
+		Exit:		exitFee, 
+		PoolName:	poolName,
+	}
+}
+
 func NewLiqProv(shareAmount, poolName, address string) LiqProv {
 	return LiqProv{
 		ShareAmount: shareAmount,

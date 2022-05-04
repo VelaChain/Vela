@@ -39,14 +39,14 @@ func (k msgServer) SendShares(goCtx context.Context, msg *types.MsgSendShares) (
 	msgShares, ok := sdk.NewIntFromString(msg.Shares)
 	if !ok {
 		return &types.MsgSendSharesResponse{}, types.ErrConvertSharesToInt
-	} 
+	}
 	// check msgShares is positive
 	if !msgShares.IsPositive() {
 		return &types.MsgSendSharesResponse{}, types.ErrShareAmountNotPos
 	}
 	// check reciever liq prov exists
 	var newRecvLiqProv types.LiqProv
-	recvLiqProv, found := k.Keeper.GetLiqProv(ctx, poolName, msg.Address) 
+	recvLiqProv, found := k.Keeper.GetLiqProv(ctx, poolName, msg.Address)
 	if !found {
 		newRecvLiqProv = types.NewLiqProv(msg.Shares, poolName, msg.Address)
 	} else {
@@ -55,15 +55,15 @@ func (k msgServer) SendShares(goCtx context.Context, msg *types.MsgSendShares) (
 			return &types.MsgSendSharesResponse{}, types.ErrConvertSharesToInt
 		}
 		newShares := msgShares.Add(recv)
-		newRecvLiqProv = types.NewLiqProv(newShares.String(), poolName, msg.Address) 
+		newRecvLiqProv = types.NewLiqProv(newShares.String(), poolName, msg.Address)
 	}
-	
+
 	liqProvShares, ok := sdk.NewIntFromString(liqProv.ShareAmount)
 	if !ok {
 		return &types.MsgSendSharesResponse{}, types.ErrConvertSharesToInt
-	} 
+	}
 	newLiqProvShares := liqProvShares.Sub(msgShares)
-	// remove shares from creator 
+	// remove shares from creator
 	newLiqProv := types.NewLiqProv(newLiqProvShares.String(), poolName, liqProv.Address)
 	// update liq provs in list
 	k.Keeper.SetLiqProv(ctx, newLiqProv)

@@ -52,6 +52,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						Address:  "1",
 					},
 				},
+				FeeMapList: []types.FeeMap{
+					{
+						PoolName: "0",
+					},
+					{
+						PoolName: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -99,6 +107,20 @@ func TestGenesisState_Validate(t *testing.T) {
 					{
 						PoolName: "0",
 						Address:  "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated feeMap",
+			genState: &types.GenesisState{
+				FeeMapList: []types.FeeMap{
+					{
+						PoolName: "0",
+					},
+					{
+						PoolName: "0",
 					},
 				},
 			},

@@ -63,13 +63,29 @@ func (k msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 	poolShares, ok := sdk.NewIntFromString(pool.Shares)
 	if !ok {
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrConvertSharesToInt
+	}	
+	// // only use prov shares - fee amount for amounts out
+	// remShares, err := types.ApplyExitFee(provShares)
+	// if err != nil {
+	// 	return &types.MsgRemoveLiquidityResponse{}, err
+	// }
+
+	// get fees for remove
+	fees, found := k.Keeper.GetFeeMap(ctx, poolName) 
+	if !found {
+		return &types.MsgRemoveLiquidityResponse{}, types.ErrFeeMapDNE
 	}
-	// only use prov shares - fee amount for amounts out
-	remShares, err := types.ApplyExitFee(provShares)
+	// get exit fee as sdk dec
+	exitFee, err := sdk.NewDecFromStr(fees.Exit)
 	if err != nil {
 		return &types.MsgRemoveLiquidityResponse{}, err
 	}
-	// get assets out amounts
+	// apply exit fee to provShares
+	remShares, err := types.ApplyFee(provShares, exitFee)
+	if err != nil {
+		return &types.MsgRemoveLiquidityResponse{}, err
+	}
+	// get asset amounts out
 	amountOutA := types.AOutGivenShares(poolAmountA, poolShares, remShares)
 	if !amountOutA.IsPositive() {
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrAmountOutAZero

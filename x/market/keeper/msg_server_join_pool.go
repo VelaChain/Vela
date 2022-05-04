@@ -5,7 +5,7 @@ import (
 
 	"github.com/VelaChain/vela/x/market/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-//	sdkerror "github.com/cosmos/cosmos-sdk/types/errors"
+	//	sdkerror "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) validateJoinPoolMsg(ctx sdk.Context, msg *types.MsgJoinPool) (msgAmountA sdk.Int, msgAmountB sdk.Int, msgShares sdk.Int, accAddr sdk.AccAddress, err error) {
@@ -89,7 +89,7 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 	// if !ok {
 	// 	return &types.MsgJoinPoolResponse{}, types.ErrConvertSharesToInt
 	// }
-	// check ratios 
+	// check ratios
 	// pool ratio rounds up to nearest int
 	// poolRatioAtoB := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolAmountB))
 	// poolRatioBtoA := sdk.NewDecFromInt(poolAmountB).QuoRoundUp(sdk.NewDecFromInt(poolAmountA))
@@ -111,7 +111,7 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "Pool Ratio %s must equal msg ratio %s, add %s beta for %s alpha", poolRatio.String(), msgRatio.String(), poolRatio.MulInt(msgAmountA).RoundInt().String(), msgAmountA.String())
 	// }
 
- 	// if !poolAmountA.Quo(poolAmountB).Equal(msgAmountA.Quo(msgAmountB)) {
+	// if !poolAmountA.Quo(poolAmountB).Equal(msgAmountA.Quo(msgAmountB)) {
 	// 	amtB := poolAmountB.Mul(msgAmountA).Quo(poolAmountA)
 	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "For %s alpha, add %s beta", msgAmountA.String(), amtB.String())
 	// }
@@ -120,19 +120,19 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 	// 	amtB := poolAmountB.Mul(msgAmountA).Quo(poolAmountA)
 	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "For %s alpha, add %s beta", msgAmountA.String(), amtB.String())
 	// }
-	
+
 	// check pool ratios
 	if err := types.CheckRatios(poolAmountA, poolAmountB, msgAmountA, msgAmountB); err != nil {
 		return &types.MsgJoinPoolResponse{}, err
 	}
 	// get new shares out
 	var newShares sdk.Int
-	if poolShares.IsZero(){
+	if poolShares.IsZero() {
 		newShares = msgShares
 	} else {
 		newShares = msgAmountA.Mul(poolShares).Quo(poolAmountA)
 	}
-		// check shares are sufficient
+	// check shares are sufficient
 	if newShares.LT(msgShares) {
 		return &types.MsgJoinPoolResponse{}, types.ErrNotEnoughSharesOut
 	}

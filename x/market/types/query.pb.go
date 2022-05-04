@@ -497,6 +497,190 @@ func (m *QueryAllLiqProvResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
+type QueryGetFeeMapRequest struct {
+	PoolName string `protobuf:"bytes,1,opt,name=poolName,proto3" json:"poolName,omitempty"`
+}
+
+func (m *QueryGetFeeMapRequest) Reset()         { *m = QueryGetFeeMapRequest{} }
+func (m *QueryGetFeeMapRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetFeeMapRequest) ProtoMessage()    {}
+func (*QueryGetFeeMapRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dc4839d34748ebb1, []int{10}
+}
+func (m *QueryGetFeeMapRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetFeeMapRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetFeeMapRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetFeeMapRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetFeeMapRequest.Merge(m, src)
+}
+func (m *QueryGetFeeMapRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetFeeMapRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetFeeMapRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetFeeMapRequest proto.InternalMessageInfo
+
+func (m *QueryGetFeeMapRequest) GetPoolName() string {
+	if m != nil {
+		return m.PoolName
+	}
+	return ""
+}
+
+type QueryGetFeeMapResponse struct {
+	FeeMap FeeMap `protobuf:"bytes,1,opt,name=feeMap,proto3" json:"feeMap"`
+}
+
+func (m *QueryGetFeeMapResponse) Reset()         { *m = QueryGetFeeMapResponse{} }
+func (m *QueryGetFeeMapResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetFeeMapResponse) ProtoMessage()    {}
+func (*QueryGetFeeMapResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dc4839d34748ebb1, []int{11}
+}
+func (m *QueryGetFeeMapResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetFeeMapResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetFeeMapResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetFeeMapResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetFeeMapResponse.Merge(m, src)
+}
+func (m *QueryGetFeeMapResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetFeeMapResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetFeeMapResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetFeeMapResponse proto.InternalMessageInfo
+
+func (m *QueryGetFeeMapResponse) GetFeeMap() FeeMap {
+	if m != nil {
+		return m.FeeMap
+	}
+	return FeeMap{}
+}
+
+type QueryAllFeeMapRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllFeeMapRequest) Reset()         { *m = QueryAllFeeMapRequest{} }
+func (m *QueryAllFeeMapRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllFeeMapRequest) ProtoMessage()    {}
+func (*QueryAllFeeMapRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dc4839d34748ebb1, []int{12}
+}
+func (m *QueryAllFeeMapRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllFeeMapRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllFeeMapRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllFeeMapRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllFeeMapRequest.Merge(m, src)
+}
+func (m *QueryAllFeeMapRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllFeeMapRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllFeeMapRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllFeeMapRequest proto.InternalMessageInfo
+
+func (m *QueryAllFeeMapRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllFeeMapResponse struct {
+	FeeMap     []FeeMap            `protobuf:"bytes,1,rep,name=feeMap,proto3" json:"feeMap"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllFeeMapResponse) Reset()         { *m = QueryAllFeeMapResponse{} }
+func (m *QueryAllFeeMapResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllFeeMapResponse) ProtoMessage()    {}
+func (*QueryAllFeeMapResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dc4839d34748ebb1, []int{13}
+}
+func (m *QueryAllFeeMapResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllFeeMapResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllFeeMapResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllFeeMapResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllFeeMapResponse.Merge(m, src)
+}
+func (m *QueryAllFeeMapResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllFeeMapResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllFeeMapResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllFeeMapResponse proto.InternalMessageInfo
+
+func (m *QueryAllFeeMapResponse) GetFeeMap() []FeeMap {
+	if m != nil {
+		return m.FeeMap
+	}
+	return nil
+}
+
+func (m *QueryAllFeeMapResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "VelaChain.vela.market.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "VelaChain.vela.market.QueryParamsResponse")
@@ -508,54 +692,66 @@ func init() {
 	proto.RegisterType((*QueryGetLiqProvResponse)(nil), "VelaChain.vela.market.QueryGetLiqProvResponse")
 	proto.RegisterType((*QueryAllLiqProvRequest)(nil), "VelaChain.vela.market.QueryAllLiqProvRequest")
 	proto.RegisterType((*QueryAllLiqProvResponse)(nil), "VelaChain.vela.market.QueryAllLiqProvResponse")
+	proto.RegisterType((*QueryGetFeeMapRequest)(nil), "VelaChain.vela.market.QueryGetFeeMapRequest")
+	proto.RegisterType((*QueryGetFeeMapResponse)(nil), "VelaChain.vela.market.QueryGetFeeMapResponse")
+	proto.RegisterType((*QueryAllFeeMapRequest)(nil), "VelaChain.vela.market.QueryAllFeeMapRequest")
+	proto.RegisterType((*QueryAllFeeMapResponse)(nil), "VelaChain.vela.market.QueryAllFeeMapResponse")
 }
 
 func init() { proto.RegisterFile("market/query.proto", fileDescriptor_dc4839d34748ebb1) }
 
 var fileDescriptor_dc4839d34748ebb1 = []byte{
-	// 669 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x95, 0x4d, 0x6f, 0xd3, 0x4c,
-	0x10, 0xc7, 0xb3, 0x7d, 0x49, 0x9e, 0x67, 0x39, 0xb1, 0x7d, 0xa1, 0x72, 0xa9, 0x0b, 0x46, 0xd0,
-	0x52, 0x54, 0xaf, 0x5a, 0x28, 0x17, 0x10, 0x52, 0x8c, 0xa0, 0x17, 0xa8, 0x42, 0x0e, 0x48, 0x20,
-	0x21, 0xd8, 0xb4, 0x2b, 0xd7, 0x62, 0xed, 0x75, 0x6c, 0x37, 0xa2, 0xaa, 0x72, 0xe1, 0x00, 0x57,
-	0x24, 0x50, 0x3f, 0x00, 0x07, 0x3e, 0x4b, 0x8f, 0x95, 0xb8, 0x70, 0x42, 0xa8, 0xe5, 0x1b, 0xf0,
-	0x05, 0x90, 0x77, 0xc7, 0x21, 0x4e, 0x9a, 0x37, 0xa9, 0x37, 0xef, 0x64, 0xe6, 0x3f, 0xbf, 0x99,
-	0xd9, 0xd9, 0x60, 0xe2, 0xb3, 0xe8, 0x2d, 0x4f, 0x68, 0x7d, 0x8f, 0x47, 0xfb, 0x76, 0x18, 0xc9,
-	0x44, 0x92, 0x99, 0xe7, 0x5c, 0xb0, 0x87, 0xbb, 0xcc, 0x0b, 0xec, 0x06, 0x17, 0xcc, 0xd6, 0x2e,
-	0xc6, 0xb4, 0x2b, 0x5d, 0xa9, 0x3c, 0x68, 0xfa, 0xa5, 0x9d, 0x8d, 0xcb, 0xae, 0x94, 0xae, 0xe0,
-	0x94, 0x85, 0x1e, 0x65, 0x41, 0x20, 0x13, 0x96, 0x78, 0x32, 0x88, 0xe1, 0xd7, 0x95, 0x6d, 0x19,
-	0xfb, 0x32, 0xa6, 0x35, 0x16, 0x73, 0x9d, 0x83, 0x36, 0xd6, 0x6a, 0x3c, 0x61, 0x6b, 0x34, 0x64,
-	0xae, 0x17, 0x28, 0x67, 0xf0, 0x9d, 0x02, 0x94, 0x90, 0x45, 0xcc, 0xcf, 0x04, 0x2e, 0x66, 0x46,
-	0x29, 0x05, 0x98, 0x66, 0xc0, 0x24, 0xbc, 0xfa, 0xeb, 0x30, 0x92, 0x0d, 0x6d, 0xb6, 0xa6, 0x31,
-	0x79, 0x96, 0x26, 0xa8, 0xa8, 0xf0, 0x2a, 0xaf, 0xef, 0xf1, 0x38, 0xb1, 0xaa, 0x78, 0x2a, 0x67,
-	0x8d, 0x43, 0x19, 0xc4, 0x9c, 0xdc, 0xc3, 0x45, 0x9d, 0x66, 0x0e, 0x5d, 0x41, 0xcb, 0x17, 0xd6,
-	0x17, 0xec, 0x33, 0x6b, 0xb6, 0x75, 0x98, 0x33, 0x71, 0xf4, 0x73, 0xb1, 0x50, 0x85, 0x10, 0xeb,
-	0x11, 0x68, 0x6e, 0xf2, 0xa4, 0x22, 0xa5, 0x80, 0x54, 0x64, 0x16, 0x17, 0x77, 0x78, 0x20, 0xfd,
-	0xb2, 0xd2, 0xfc, 0xbf, 0x0a, 0xa7, 0x96, 0xdd, 0x99, 0x1b, 0x6b, 0xb3, 0x3b, 0xd6, 0x53, 0x3c,
-	0x9d, 0x97, 0x01, 0xb6, 0x0d, 0x3c, 0x91, 0x56, 0x0b, 0x64, 0xf3, 0xbd, 0xc8, 0xa4, 0x14, 0xc0,
-	0xa5, 0xdc, 0xad, 0x57, 0x40, 0x55, 0x16, 0xa2, 0x9d, 0xea, 0x31, 0xc6, 0xff, 0x3a, 0x0d, 0x9a,
-	0x37, 0x6c, 0x3d, 0x16, 0x3b, 0x1d, 0x8b, 0xad, 0x47, 0x0f, 0x63, 0xb1, 0x2b, 0xcc, 0xe5, 0x10,
-	0x5b, 0x6d, 0x8b, 0xb4, 0x0e, 0x11, 0xe0, 0xb6, 0xf4, 0xbb, 0x70, 0xc7, 0x47, 0xc0, 0x25, 0x9b,
-	0x39, 0xae, 0x31, 0xc5, 0xb5, 0x34, 0x90, 0x4b, 0xe7, 0xcc, 0x81, 0x6d, 0xe1, 0xd9, 0xac, 0x8d,
-	0x4f, 0xbc, 0x7a, 0x25, 0x92, 0x8d, 0xac, 0x74, 0x03, 0xff, 0x97, 0xa6, 0xda, 0x62, 0x3e, 0x87,
-	0x91, 0xb4, 0xce, 0x64, 0x0e, 0x97, 0xd8, 0xce, 0x4e, 0xc4, 0xe3, 0x18, 0xa6, 0x92, 0x1d, 0xad,
-	0x17, 0xf8, 0x52, 0x97, 0x1e, 0x94, 0xfa, 0x00, 0x97, 0x84, 0x36, 0x41, 0x23, 0xcd, 0x1e, 0xd5,
-	0x42, 0x20, 0x14, 0x9c, 0x05, 0x59, 0x6f, 0x00, 0xb5, 0x2c, 0x44, 0x07, 0xea, 0x79, 0x4d, 0xe9,
-	0x2b, 0x02, 0xfa, 0xf6, 0x14, 0x67, 0xd1, 0x8f, 0x8f, 0x4c, 0x7f, 0x6e, 0x13, 0x5b, 0xff, 0x33,
-	0x89, 0x27, 0x15, 0x24, 0xf9, 0x80, 0x70, 0x51, 0xaf, 0x18, 0xb9, 0xd9, 0x03, 0xa6, 0x7b, 0xa7,
-	0x8d, 0x95, 0x61, 0x5c, 0x75, 0x5e, 0xeb, 0xfa, 0xfb, 0xef, 0xbf, 0x3f, 0x8f, 0x2d, 0x92, 0x05,
-	0xda, 0x8a, 0xa1, 0x69, 0x0c, 0xcd, 0x3d, 0x36, 0xe4, 0x10, 0xe1, 0x89, 0xf4, 0x8a, 0x92, 0xbe,
-	0xda, 0xf9, 0x85, 0x37, 0x6e, 0x0d, 0xe5, 0x0b, 0x20, 0x1b, 0x0a, 0x84, 0x92, 0xd5, 0x5e, 0x20,
-	0x52, 0x0a, 0x7a, 0xa0, 0x9f, 0x8c, 0x26, 0x7c, 0x38, 0x4d, 0xf2, 0x11, 0xe1, 0x52, 0xaa, 0x53,
-	0x16, 0x03, 0xd8, 0xf2, 0x6b, 0xdf, 0x9f, 0xad, 0x63, 0x85, 0xad, 0x6b, 0x8a, 0x6d, 0x81, 0xcc,
-	0xf7, 0x61, 0x23, 0xdf, 0x10, 0x2e, 0xc1, 0xcd, 0x20, 0xab, 0x03, 0x2a, 0xcf, 0xdf, 0x6e, 0xc3,
-	0x1e, 0xd6, 0x1d, 0x78, 0xee, 0x2b, 0x9e, 0xbb, 0xe4, 0x4e, 0x0f, 0x9e, 0xec, 0xe5, 0xa7, 0x07,
-	0xd9, 0x3e, 0x37, 0xe9, 0x01, 0xec, 0x6f, 0x93, 0x7c, 0x41, 0x18, 0x83, 0x62, 0xda, 0xb5, 0xd5,
-	0x01, 0x9d, 0x18, 0x85, 0xb5, 0x7b, 0xab, 0xac, 0x25, 0xc5, 0x7a, 0x95, 0x2c, 0x0e, 0x60, 0x75,
-	0x9c, 0xa3, 0x13, 0x13, 0x1d, 0x9f, 0x98, 0xe8, 0xd7, 0x89, 0x89, 0x3e, 0x9d, 0x9a, 0x85, 0xe3,
-	0x53, 0xb3, 0xf0, 0xe3, 0xd4, 0x2c, 0xbc, 0x5c, 0x76, 0xbd, 0x64, 0x77, 0xaf, 0x66, 0x6f, 0x4b,
-	0xbf, 0x53, 0xe4, 0x5d, 0x26, 0x93, 0xec, 0x87, 0x3c, 0xae, 0x15, 0xd5, 0x5f, 0xdd, 0xed, 0xbf,
-	0x01, 0x00, 0x00, 0xff, 0xff, 0xfe, 0x79, 0x4d, 0x9b, 0xb6, 0x07, 0x00, 0x00,
+	// 790 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x96, 0x4f, 0x4f, 0x13, 0x4f,
+	0x18, 0xc7, 0x3b, 0xc0, 0xaf, 0x85, 0xf9, 0x9d, 0x1c, 0x0a, 0x92, 0x22, 0x0b, 0xae, 0x91, 0xff,
+	0xdd, 0x09, 0x20, 0x5e, 0x34, 0x26, 0xad, 0x11, 0x2e, 0x42, 0x6a, 0x13, 0x4d, 0x34, 0x31, 0x38,
+	0x85, 0xa1, 0x34, 0x4e, 0x3b, 0xdb, 0xee, 0xd2, 0x48, 0x48, 0x2f, 0x1e, 0xf4, 0x4a, 0xa2, 0x21,
+	0x9e, 0x4c, 0xf4, 0xe0, 0x6b, 0xe1, 0x48, 0xe2, 0xc5, 0x93, 0x31, 0xe0, 0x0b, 0x31, 0x3b, 0xf3,
+	0x6c, 0xdb, 0xa5, 0xb4, 0xdb, 0x26, 0xbd, 0xed, 0x3c, 0x7d, 0x9e, 0xef, 0xf3, 0x99, 0xe7, 0xe9,
+	0xf3, 0xec, 0x62, 0x52, 0x64, 0x95, 0xb7, 0xdc, 0xa5, 0xe5, 0x43, 0x5e, 0x39, 0xb2, 0xec, 0x8a,
+	0x74, 0x25, 0x19, 0x7b, 0xc1, 0x05, 0x7b, 0x7c, 0xc0, 0x0a, 0x25, 0xab, 0xca, 0x05, 0xb3, 0xb4,
+	0x4b, 0x22, 0x9e, 0x97, 0x79, 0xa9, 0x3c, 0xa8, 0xf7, 0xa4, 0x9d, 0x13, 0xb7, 0xf2, 0x52, 0xe6,
+	0x05, 0xa7, 0xcc, 0x2e, 0x50, 0x56, 0x2a, 0x49, 0x97, 0xb9, 0x05, 0x59, 0x72, 0xe0, 0xd7, 0xc5,
+	0x5d, 0xe9, 0x14, 0xa5, 0x43, 0x73, 0xcc, 0xe1, 0x3a, 0x07, 0xad, 0xae, 0xe4, 0xb8, 0xcb, 0x56,
+	0xa8, 0xcd, 0xf2, 0x85, 0x92, 0x72, 0x06, 0xdf, 0x51, 0x40, 0xb1, 0x59, 0x85, 0x15, 0x7d, 0x81,
+	0x1b, 0xbe, 0x51, 0x4a, 0x01, 0xa6, 0x31, 0x30, 0x89, 0x42, 0x79, 0xc7, 0xae, 0xc8, 0x2a, 0x98,
+	0xe3, 0x60, 0xde, 0xe7, 0x7c, 0xa7, 0xc8, 0x6c, 0x6d, 0x35, 0xe3, 0x98, 0x3c, 0xf3, 0xd2, 0x66,
+	0x94, 0x68, 0x96, 0x97, 0x0f, 0xb9, 0xe3, 0x9a, 0x59, 0x3c, 0x1a, 0xb0, 0x3a, 0xb6, 0x2c, 0x39,
+	0x9c, 0x3c, 0xc0, 0x51, 0x9d, 0x7c, 0x02, 0xcd, 0xa0, 0xf9, 0xff, 0x57, 0xa7, 0xac, 0x6b, 0x2b,
+	0x61, 0xe9, 0xb0, 0xf4, 0xd0, 0xd9, 0xef, 0xe9, 0x48, 0x16, 0x42, 0xcc, 0x27, 0xa0, 0xb9, 0xc9,
+	0xdd, 0x8c, 0x94, 0x02, 0x52, 0x91, 0x71, 0x1c, 0xdd, 0xe3, 0x25, 0x59, 0x4c, 0x29, 0xcd, 0x91,
+	0x2c, 0x9c, 0xea, 0xf6, 0xf4, 0xc4, 0x40, 0x93, 0x3d, 0x6d, 0x6e, 0xe1, 0x78, 0x50, 0x06, 0xd8,
+	0xd6, 0xf1, 0x90, 0x57, 0x03, 0x20, 0x9b, 0x6c, 0x47, 0x26, 0xa5, 0x00, 0x2e, 0xe5, 0x6e, 0xbe,
+	0x06, 0xaa, 0x94, 0x10, 0xcd, 0x54, 0x1b, 0x18, 0x37, 0xea, 0x0f, 0x9a, 0xb3, 0x96, 0x6e, 0x96,
+	0xe5, 0x35, 0xcb, 0xd2, 0x7f, 0x08, 0x68, 0x96, 0x95, 0x61, 0x79, 0x0e, 0xb1, 0xd9, 0xa6, 0x48,
+	0xf3, 0x14, 0x01, 0x6e, 0x5d, 0xbf, 0x05, 0x77, 0xb0, 0x07, 0x5c, 0xb2, 0x19, 0xe0, 0x1a, 0x50,
+	0x5c, 0x73, 0xa1, 0x5c, 0x3a, 0x67, 0x00, 0x6c, 0x1b, 0x8f, 0xfb, 0x65, 0x7c, 0x5a, 0x28, 0x67,
+	0x2a, 0xb2, 0xea, 0x5f, 0x3d, 0x81, 0x87, 0xbd, 0x54, 0xdb, 0xac, 0xc8, 0xa1, 0x25, 0xf5, 0x33,
+	0x99, 0xc0, 0x31, 0xb6, 0xb7, 0x57, 0xe1, 0x8e, 0x03, 0x5d, 0xf1, 0x8f, 0xe6, 0x4b, 0x7c, 0xb3,
+	0x45, 0x0f, 0xae, 0xfa, 0x08, 0xc7, 0x84, 0x36, 0x41, 0x21, 0x8d, 0x36, 0xb7, 0x85, 0x40, 0xb8,
+	0xb0, 0x1f, 0x64, 0xbe, 0x01, 0xd4, 0x94, 0x10, 0x57, 0x50, 0xfb, 0xd5, 0xa5, 0xef, 0x08, 0xe8,
+	0x9b, 0x53, 0x5c, 0x47, 0x3f, 0xd8, 0x33, 0x7d, 0xff, 0x3a, 0xb6, 0x86, 0xc7, 0xfc, 0x0a, 0x6f,
+	0x70, 0xbe, 0xc5, 0xec, 0x2e, 0x1a, 0x66, 0x3e, 0x6f, 0xb4, 0xd9, 0x0f, 0x6a, 0xcc, 0xf2, 0xbe,
+	0xb2, 0x84, 0xcc, 0xb2, 0x0e, 0xf3, 0x67, 0x59, 0x87, 0x98, 0x3b, 0xc0, 0x92, 0x12, 0x22, 0xc8,
+	0xd2, 0xaf, 0x8e, 0x7c, 0x45, 0x8d, 0xa6, 0x77, 0x00, 0x1f, 0xec, 0x11, 0xbc, 0x6f, 0xdd, 0x58,
+	0xfd, 0x36, 0x8c, 0xff, 0x53, 0x80, 0xe4, 0x03, 0xc2, 0x51, 0xbd, 0xf0, 0xc8, 0x42, 0x1b, 0x94,
+	0xd6, 0x0d, 0x9b, 0x58, 0xec, 0xc6, 0x55, 0xe7, 0x35, 0xef, 0xbe, 0xff, 0xf9, 0xf7, 0xd3, 0xc0,
+	0x34, 0x99, 0xa2, 0xf5, 0x18, 0xea, 0xc5, 0xd0, 0xc0, 0x0b, 0x81, 0x9c, 0x22, 0x3c, 0xe4, 0x2d,
+	0x0c, 0xd2, 0x51, 0x3b, 0xb8, 0x7e, 0x13, 0x4b, 0x5d, 0xf9, 0x02, 0xc8, 0xba, 0x02, 0xa1, 0x24,
+	0xd9, 0x0e, 0x44, 0x4a, 0x41, 0x8f, 0xf5, 0x02, 0xaf, 0xc1, 0x43, 0xba, 0x46, 0x3e, 0x22, 0x1c,
+	0xf3, 0x74, 0x52, 0x22, 0x84, 0x2d, 0xb8, 0x84, 0x3b, 0xb3, 0x5d, 0x59, 0xa8, 0xe6, 0x1d, 0xc5,
+	0x36, 0x45, 0x26, 0x3b, 0xb0, 0x91, 0x1f, 0x08, 0xc7, 0x60, 0x4e, 0x49, 0x32, 0xe4, 0xe6, 0xc1,
+	0x5d, 0x93, 0xb0, 0xba, 0x75, 0x07, 0x9e, 0x87, 0x8a, 0xe7, 0x3e, 0xb9, 0xd7, 0x86, 0xc7, 0x7f,
+	0x3b, 0xd3, 0x63, 0x7f, 0x58, 0x6b, 0xf4, 0x18, 0xb6, 0x69, 0x8d, 0x7c, 0x46, 0x18, 0x83, 0xa2,
+	0x57, 0xb5, 0x64, 0x48, 0x25, 0x7a, 0x61, 0x6d, 0xdd, 0x71, 0xe6, 0x9c, 0x62, 0xbd, 0x4d, 0xa6,
+	0x43, 0x58, 0xc9, 0x17, 0x84, 0xa3, 0x7a, 0xae, 0xc8, 0x72, 0x48, 0x3d, 0x02, 0x7b, 0x21, 0x91,
+	0xec, 0xd2, 0x1b, 0x80, 0x56, 0x14, 0xd0, 0x12, 0x59, 0x68, 0x03, 0x04, 0xdf, 0x30, 0x4d, 0xb5,
+	0x23, 0x27, 0x08, 0x8f, 0x68, 0x15, 0xaf, 0x60, 0xcb, 0x21, 0x15, 0xe8, 0x81, 0xae, 0x65, 0x03,
+	0x99, 0xb3, 0x8a, 0x6e, 0x86, 0x18, 0x9d, 0xe9, 0xd2, 0xe9, 0xb3, 0x0b, 0x03, 0x9d, 0x5f, 0x18,
+	0xe8, 0xcf, 0x85, 0x81, 0x4e, 0x2e, 0x8d, 0xc8, 0xf9, 0xa5, 0x11, 0xf9, 0x75, 0x69, 0x44, 0x5e,
+	0xcd, 0xe7, 0x0b, 0xee, 0xc1, 0x61, 0xce, 0xda, 0x95, 0xc5, 0xab, 0x1a, 0xef, 0x7c, 0x15, 0xf7,
+	0xc8, 0xe6, 0x4e, 0x2e, 0xaa, 0x3e, 0xd3, 0xd6, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x85, 0x29,
+	0xc5, 0x72, 0x88, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -580,6 +776,10 @@ type QueryClient interface {
 	LiqProv(ctx context.Context, in *QueryGetLiqProvRequest, opts ...grpc.CallOption) (*QueryGetLiqProvResponse, error)
 	// Queries a list of LiqProv items.
 	LiqProvAll(ctx context.Context, in *QueryAllLiqProvRequest, opts ...grpc.CallOption) (*QueryAllLiqProvResponse, error)
+	// Queries a FeeMap by index.
+	FeeMap(ctx context.Context, in *QueryGetFeeMapRequest, opts ...grpc.CallOption) (*QueryGetFeeMapResponse, error)
+	// Queries a list of FeeMap items.
+	FeeMapAll(ctx context.Context, in *QueryAllFeeMapRequest, opts ...grpc.CallOption) (*QueryAllFeeMapResponse, error)
 }
 
 type queryClient struct {
@@ -635,6 +835,24 @@ func (c *queryClient) LiqProvAll(ctx context.Context, in *QueryAllLiqProvRequest
 	return out, nil
 }
 
+func (c *queryClient) FeeMap(ctx context.Context, in *QueryGetFeeMapRequest, opts ...grpc.CallOption) (*QueryGetFeeMapResponse, error) {
+	out := new(QueryGetFeeMapResponse)
+	err := c.cc.Invoke(ctx, "/VelaChain.vela.market.Query/FeeMap", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) FeeMapAll(ctx context.Context, in *QueryAllFeeMapRequest, opts ...grpc.CallOption) (*QueryAllFeeMapResponse, error) {
+	out := new(QueryAllFeeMapResponse)
+	err := c.cc.Invoke(ctx, "/VelaChain.vela.market.Query/FeeMapAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -647,6 +865,10 @@ type QueryServer interface {
 	LiqProv(context.Context, *QueryGetLiqProvRequest) (*QueryGetLiqProvResponse, error)
 	// Queries a list of LiqProv items.
 	LiqProvAll(context.Context, *QueryAllLiqProvRequest) (*QueryAllLiqProvResponse, error)
+	// Queries a FeeMap by index.
+	FeeMap(context.Context, *QueryGetFeeMapRequest) (*QueryGetFeeMapResponse, error)
+	// Queries a list of FeeMap items.
+	FeeMapAll(context.Context, *QueryAllFeeMapRequest) (*QueryAllFeeMapResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -667,6 +889,12 @@ func (*UnimplementedQueryServer) LiqProv(ctx context.Context, req *QueryGetLiqPr
 }
 func (*UnimplementedQueryServer) LiqProvAll(ctx context.Context, req *QueryAllLiqProvRequest) (*QueryAllLiqProvResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LiqProvAll not implemented")
+}
+func (*UnimplementedQueryServer) FeeMap(ctx context.Context, req *QueryGetFeeMapRequest) (*QueryGetFeeMapResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FeeMap not implemented")
+}
+func (*UnimplementedQueryServer) FeeMapAll(ctx context.Context, req *QueryAllFeeMapRequest) (*QueryAllFeeMapResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FeeMapAll not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -763,6 +991,42 @@ func _Query_LiqProvAll_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_FeeMap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetFeeMapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).FeeMap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/VelaChain.vela.market.Query/FeeMap",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).FeeMap(ctx, req.(*QueryGetFeeMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_FeeMapAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllFeeMapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).FeeMapAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/VelaChain.vela.market.Query/FeeMapAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).FeeMapAll(ctx, req.(*QueryAllFeeMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "VelaChain.vela.market.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -786,6 +1050,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LiqProvAll",
 			Handler:    _Query_LiqProvAll_Handler,
+		},
+		{
+			MethodName: "FeeMap",
+			Handler:    _Query_FeeMap_Handler,
+		},
+		{
+			MethodName: "FeeMapAll",
+			Handler:    _Query_FeeMapAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1156,6 +1428,153 @@ func (m *QueryAllLiqProvResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetFeeMapRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetFeeMapRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetFeeMapRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.PoolName) > 0 {
+		i -= len(m.PoolName)
+		copy(dAtA[i:], m.PoolName)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.PoolName)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetFeeMapResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetFeeMapResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetFeeMapResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.FeeMap.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllFeeMapRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllFeeMapRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllFeeMapRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllFeeMapResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllFeeMapResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllFeeMapResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.FeeMap) > 0 {
+		for iNdEx := len(m.FeeMap) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.FeeMap[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -1296,6 +1715,62 @@ func (m *QueryAllLiqProvResponse) Size() (n int) {
 	_ = l
 	if len(m.LiqProv) > 0 {
 		for _, e := range m.LiqProv {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetFeeMapRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.PoolName)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetFeeMapResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.FeeMap.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllFeeMapRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllFeeMapResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.FeeMap) > 0 {
+		for _, e := range m.FeeMap {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
@@ -2192,6 +2667,377 @@ func (m *QueryAllLiqProvResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.LiqProv = append(m.LiqProv, LiqProv{})
 			if err := m.LiqProv[len(m.LiqProv)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetFeeMapRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetFeeMapRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetFeeMapRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PoolName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PoolName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetFeeMapResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetFeeMapResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetFeeMapResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FeeMap", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.FeeMap.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllFeeMapRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllFeeMapRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllFeeMapRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllFeeMapResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllFeeMapResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllFeeMapResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FeeMap", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FeeMap = append(m.FeeMap, FeeMap{})
+			if err := m.FeeMap[len(m.FeeMap)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

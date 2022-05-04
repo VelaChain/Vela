@@ -57,7 +57,7 @@ func (k msgServer) CreatePool(goCtx context.Context, msg *types.MsgCreatePool) (
 	if _, found := k.GetLiqProv(ctx, poolName, msg.Creator); found {
 		return &types.MsgCreatePoolResponse{}, types.ErrLiqProvExists
 	}
-	// convert amounts to strings	
+	// convert amounts to strings
 	// msgAmountA, ok := sdk.NewIntFromString(msg.AmountA)
 	// if !ok {
 	// 	return &types.MsgCreatePoolResponse{}, types.ErrConvertAmountAToInt
@@ -82,9 +82,22 @@ func (k msgServer) CreatePool(goCtx context.Context, msg *types.MsgCreatePool) (
 	}
 	// create liquidity provider
 	liqProv := types.NewLiqProv(msg.MinShares, poolName, msg.Creator)
-	// update pool and liq prov
+	// check swap fee from default creates sdk dec
+	_, err = sdk.NewDecFromStr(types.DefaultSwapFee) 
+	if err != nil {
+		return &types.MsgCreatePoolResponse{}, err
+	}
+	// create exit fee from default creates sdk dec
+	_, err = sdk.NewDecFromStr(types.DefaultExitFee)
+	if err != nil {
+		return &types.MsgCreatePoolResponse{}, err
+	}
+	// create fee map
+	fees := types.NewFee(types.DefaultSwapFee, types.DefaultExitFee, poolName)
+	// update pool, liq prov and feeMap 
 	k.Keeper.SetPool(ctx, pool)
 	k.Keeper.SetLiqProv(ctx, liqProv)
+	k.Keeper.SetFeeMap(ctx, fees)
 
 	return &types.MsgCreatePoolResponse{}, nil
 }

@@ -5,7 +5,6 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-
 func AOutGivenShares(poolAmountA, poolShares, provShares sdk.Int) sdk.Int {
 	// get ratio pool amount A / pool shares
 	poolRatioAtoShares := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolShares))
@@ -21,7 +20,7 @@ func BOutGivenShares(poolAmountB, poolShares, provShares sdk.Int) sdk.Int {
 }
 
 func BOutGivenA(poolAmountA, poolAmountB, msgAmountA sdk.Int) sdk.Int {
-	// get ratio poolAmountA / poolAmountB 
+	// get ratio poolAmountA / poolAmountB
 	poolRatioAtoB := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolAmountB))
 	// return amount B for A
 	return poolRatioAtoB.MulInt(msgAmountA).RoundInt()

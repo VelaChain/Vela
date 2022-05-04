@@ -32,9 +32,19 @@ func ApplyExitFee(provShares sdk.Int) (sdk.Int, error) {
 	}
 	// get fee amount
 	feeAmount := exitFee.MulInt(provShares)
-	if !feeAmount.IsPositive(){
+	if !feeAmount.IsPositive() {
 		return sdk.ZeroInt(), ErrExitfeeAmountNotPos
 	}
 	// use provShares - feeAmount for amounts out
 	return provShares.SubRaw(feeAmount.RoundInt64()), nil
+}
+
+func ApplyFee(amount sdk.Int, fee sdk.Dec) (sdk.Int, error) {
+	// get fee amount
+	feeAmount := fee.MulInt(amount)
+	if !feeAmount.IsPositive() {
+		return sdk.ZeroInt(), ErrFeeAmountNotPos
+	}
+	// return amount - fee amount
+	return amount.SubRaw(feeAmount.RoundInt64()), nil
 }

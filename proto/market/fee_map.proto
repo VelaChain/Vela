@@ -1,0 +1,12 @@
+syntax = "proto3";
+package VelaChain.vela.market;
+
+option go_package = "github.com/VelaChain/vela/x/market/types";
+
+message FeeMap {
+  string poolName = 1; 
+  string swap = 2; 
+  string exit = 3; 
+  
+}
+

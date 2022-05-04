@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "market/params.proto";
 import "market/pool.proto";
 import "market/liq_prov.proto";
+import "market/fee_map.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/VelaChain/vela/x/market/types";
@@ -15,5 +16,6 @@ message GenesisState {
   string port_id = 2;
   repeated Pool poolList = 3 [(gogoproto.nullable) = false];  
   repeated LiqProv liqProvList = 4 [(gogoproto.nullable) = false];
+  repeated FeeMap feeMapList = 5 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

@@ -2,6 +2,7 @@
 import { Params } from "../market/params";
 import { Pool } from "../market/pool";
 import { LiqProv } from "../market/liq_prov";
+import { FeeMap } from "../market/fee_map";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "VelaChain.vela.market";
@@ -11,8 +12,9 @@ export interface GenesisState {
   params: Params | undefined;
   port_id: string;
   poolList: Pool[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   liqProvList: LiqProv[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  feeMapList: FeeMap[];
 }
 
 const baseGenesisState: object = { port_id: "" };
@@ -31,6 +33,9 @@ export const GenesisState = {
     for (const v of message.liqProvList) {
       LiqProv.encode(v!, writer.uint32(34).fork()).ldelim();
     }
+    for (const v of message.feeMapList) {
+      FeeMap.encode(v!, writer.uint32(42).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -40,6 +45,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.poolList = [];
     message.liqProvList = [];
+    message.feeMapList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -55,6 +61,9 @@ export const GenesisState = {
         case 4:
           message.liqProvList.push(LiqProv.decode(reader, reader.uint32()));
           break;
+        case 5:
+          message.feeMapList.push(FeeMap.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -67,6 +76,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.poolList = [];
     message.liqProvList = [];
+    message.feeMapList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -85,6 +95,11 @@ export const GenesisState = {
     if (object.liqProvList !== undefined && object.liqProvList !== null) {
       for (const e of object.liqProvList) {
         message.liqProvList.push(LiqProv.fromJSON(e));
+      }
+    }
+    if (object.feeMapList !== undefined && object.feeMapList !== null) {
+      for (const e of object.feeMapList) {
+        message.feeMapList.push(FeeMap.fromJSON(e));
       }
     }
     return message;
@@ -109,6 +124,13 @@ export const GenesisState = {
     } else {
       obj.liqProvList = [];
     }
+    if (message.feeMapList) {
+      obj.feeMapList = message.feeMapList.map((e) =>
+        e ? FeeMap.toJSON(e) : undefined
+      );
+    } else {
+      obj.feeMapList = [];
+    }
     return obj;
   },
 
@@ -116,6 +138,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.poolList = [];
     message.liqProvList = [];
+    message.feeMapList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -134,6 +157,11 @@ export const GenesisState = {
     if (object.liqProvList !== undefined && object.liqProvList !== null) {
       for (const e of object.liqProvList) {
         message.liqProvList.push(LiqProv.fromPartial(e));
+      }
+    }
+    if (object.feeMapList !== undefined && object.feeMapList !== null) {
+      for (const e of object.feeMapList) {
+        message.feeMapList.push(FeeMap.fromPartial(e));
       }
     }
     return message;
