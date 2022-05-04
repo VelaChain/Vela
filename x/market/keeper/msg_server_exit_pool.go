@@ -61,11 +61,17 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	if !feeAmount.IsPositive(){
 		return &types.MsgExitPoolResponse{}, types.ErrExitfeeAmountNotPos
 	}
-	// only remove provShares - feeAmount
+	// use provShares - feeAmount for amounts out
 	remShares := provShares.SubRaw(feeAmount.RoundInt64())
 	// get asset out amounts
-	amountOutA := remShares.Mul(poolAmountA).Quo(poolShares)
-	amountOutB := remShares.Mul(poolAmountB).Quo(poolShares)
+	amountOutA := types.AOutGivenShares(poolAmountA, poolShares, remShares)
+	if !amountOutA.IsPositive() {
+		return &types.MsgExitPoolResponse{}, types.ErrAmountOutANotPos
+	}
+	amountOutB := types.BOutGivenShares(poolAmountB, poolShares, remShares) 
+	if !amountOutB.IsPositive() {
+		return &types.MsgExitPoolResponse{}, types.ErrAmountOutBNotPos
+	}
 	// get creator acc address
 	accAddr, err = sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {

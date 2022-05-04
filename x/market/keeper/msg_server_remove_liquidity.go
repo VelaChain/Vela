@@ -64,13 +64,25 @@ func (k msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 	if !ok {
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrConvertSharesToInt
 	}
+	// get fee as sdk dec
+	exitFee, err := sdk.NewDecFromStr(types.DefaultExitFee)
+	if err != nil {
+		return &types.MsgRemoveLiquidityResponse{}, err
+	}
+	// get fee amount
+	feeAmount := exitFee.MulInt(provShares)
+	if !feeAmount.IsPositive(){
+		return &types.MsgRemoveLiquidityResponse{}, types.ErrExitfeeAmountNotPos
+	}
+	// use provShares - feeAmount for amounts out
+	remShares := provShares.SubRaw(feeAmount.RoundInt64())
 	// get assets out amounts
-	amountOutA := msgShares.Mul(poolAmountA).Quo(poolShares)
-	if amountOutA.IsZero() {
+	amountOutA := types.AOutGivenShares(poolAmountA, poolShares, remShares)
+	if !amountOutA.IsPositive() {
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrAmountOutAZero
 	}
-	amountOutB := msgShares.Mul(poolAmountB).Quo(poolShares)
-	if amountOutB.IsZero() {
+	amountOutB := types.BOutGivenShares(poolAmountB, poolShares, remShares)
+	if !amountOutB.IsPositive() {
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrAmountOutBZero
 	}
 	// check liq prov still has shares

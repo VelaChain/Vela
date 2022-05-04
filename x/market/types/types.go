@@ -10,17 +10,31 @@ const (
 	DefaultSwapFee = "0.01"
 )
 
+func AOutGivenShares(poolAmountA, poolShares, provShares sdk.Int) sdk.Int {
+	// get ratio pool amount A / pool shares
+	poolRatioAtoShares := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolShares))
+	// return amount A
+	return poolRatioAtoShares.MulInt(provShares).RoundInt()
+}
+
+func BOutGivenShares(poolAmountB, poolShares, provShares sdk.Int) sdk.Int {
+	// get ratio pool amount b / pool shares
+	poolRatioBtoShares := sdk.NewDecFromInt(poolAmountB).QuoRoundUp(sdk.NewDecFromInt(poolShares))
+	// return amount B
+	return poolRatioBtoShares.MulInt(provShares).RoundInt()
+}
+
 func BOutGivenA(poolAmountA, poolAmountB, msgAmountA sdk.Int) sdk.Int {
 	// get ratio poolAmountA / poolAmountB 
 	poolRatioAtoB := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolAmountB))
-	// get amount B for A
+	// return amount B for A
 	return poolRatioAtoB.MulInt(msgAmountA).RoundInt()
 }
 
 func AOutGivenB(poolAmountA, poolAmountB, msgAmountB sdk.Int) sdk.Int {
 	// get ratio poolAmountB / poolAmountA
 	poolRatioBtoA := sdk.NewDecFromInt(poolAmountB).QuoRoundUp(sdk.NewDecFromInt(poolAmountA))
-	// get amount A for B
+	// return amount A for B
 	return poolRatioBtoA.MulInt(msgAmountB).RoundInt()
 }
 
