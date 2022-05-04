@@ -64,18 +64,11 @@ func (k msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 	if !ok {
 		return &types.MsgRemoveLiquidityResponse{}, types.ErrConvertSharesToInt
 	}
-	// get fee as sdk dec
-	exitFee, err := sdk.NewDecFromStr(types.DefaultExitFee)
+	// only use prov shares - fee amount for amounts out
+	remShares, err := types.ApplyExitFee(provShares)
 	if err != nil {
 		return &types.MsgRemoveLiquidityResponse{}, err
 	}
-	// get fee amount
-	feeAmount := exitFee.MulInt(provShares)
-	if !feeAmount.IsPositive(){
-		return &types.MsgRemoveLiquidityResponse{}, types.ErrExitfeeAmountNotPos
-	}
-	// use provShares - feeAmount for amounts out
-	remShares := provShares.SubRaw(feeAmount.RoundInt64())
 	// get assets out amounts
 	amountOutA := types.AOutGivenShares(poolAmountA, poolShares, remShares)
 	if !amountOutA.IsPositive() {

@@ -72,18 +72,12 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 	if !ok {
 		return &types.MsgSwapResponse{}, types.ErrConvertAmountBToInt
 	}
-	// get fee as sdk dec
-	swapFee, err := sdk.NewDecFromStr(types.DefaultSwapFee)
+
+	// only swap with msg amount in - fee amount
+	swapAmount, err := types.ApplySwapFee(msgAmountIn)
 	if err != nil {
 		return &types.MsgSwapResponse{}, err
 	}
-	// get fee for msg amount in
-	feeAmount := swapFee.MulInt(msgAmountIn)
-	if !feeAmount.IsPositive() {
-		return &types.MsgSwapResponse{}, types.ErrSwapFeeAmountNotPos
-	}
-	// only swap with msg amount in - fee amount
-	swapAmount := msgAmountIn.SubRaw(feeAmount.RoundInt64())
 	// get asset out amount and pool balances
 	var amountOut, newAmountA, newAmountB sdk.Int
 	if pool.DenomA == msg.DenomIn {

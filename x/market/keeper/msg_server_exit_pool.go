@@ -51,18 +51,11 @@ func (k msgServer) ExitPool(goCtx context.Context, msg *types.MsgExitPool) (*typ
 	if !ok {
 		return &types.MsgExitPoolResponse{}, types.ErrConvertSharesToInt
 	}
-	// get fee as sdk dec
-	exitFee, err := sdk.NewDecFromStr(types.DefaultExitFee)
+	// use provShares - feeAmount for amounts out
+	remShares, err := types.ApplyExitFee(provShares)
 	if err != nil {
 		return &types.MsgExitPoolResponse{}, err
 	}
-	// get fee amount
-	feeAmount := exitFee.MulInt(provShares)
-	if !feeAmount.IsPositive(){
-		return &types.MsgExitPoolResponse{}, types.ErrExitfeeAmountNotPos
-	}
-	// use provShares - feeAmount for amounts out
-	remShares := provShares.SubRaw(feeAmount.RoundInt64())
 	// get asset out amounts
 	amountOutA := types.AOutGivenShares(poolAmountA, poolShares, remShares)
 	if !amountOutA.IsPositive() {
