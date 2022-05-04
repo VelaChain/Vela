@@ -5,6 +5,7 @@ import (
 
 	"github.com/VelaChain/vela/x/market/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+//	sdkerror "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) validateJoinPoolMsg(ctx sdk.Context, msg *types.MsgJoinPool) (msgAmountA sdk.Int, msgAmountB sdk.Int, msgShares sdk.Int, accAddr sdk.AccAddress, err error) {
@@ -88,9 +89,41 @@ func (k msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) (*typ
 	// if !ok {
 	// 	return &types.MsgJoinPoolResponse{}, types.ErrConvertSharesToInt
 	// }
-	// check ratios
-	if !poolAmountA.Mul(msgAmountB).Equal(poolAmountB.Mul(msgAmountA)) {
-		return &types.MsgJoinPoolResponse{}, types.ErrInvalidRatio
+	// check ratios 
+	// pool ratio rounds up to nearest int
+	// poolRatioAtoB := sdk.NewDecFromInt(poolAmountA).QuoRoundUp(sdk.NewDecFromInt(poolAmountB))
+	// poolRatioBtoA := sdk.NewDecFromInt(poolAmountB).QuoRoundUp(sdk.NewDecFromInt(poolAmountA))
+	// // get amount B needed for input A
+	// needB := poolRatioAtoB.MulInt(msgAmountA).RoundInt()
+	// // get amount A needed for input B
+	// needA := poolRatioBtoA.MulInt(msgAmountB).RoundInt()
+	// // check amount b correct for amount a
+	// if !needB.Equal(msgAmountB) {
+	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "For %s alpha you must add %s beta", msgAmountA.String(), needB.String())
+	// }
+	// // check amount a correct for amount b
+	// if !needA.Equal(msgAmountA) {
+	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "For %s beta you must add %s alpha", msgAmountB.String(), needA.String())
+	// }
+	// msg ratio truncated
+	// msgRatio := sdk.NewDecFromInt(msgAmountA).Quo(sdk.NewDecFromInt(msgAmountB))
+	// if !poolRatio.Equal(msgRatio) {
+	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "Pool Ratio %s must equal msg ratio %s, add %s beta for %s alpha", poolRatio.String(), msgRatio.String(), poolRatio.MulInt(msgAmountA).RoundInt().String(), msgAmountA.String())
+	// }
+
+ 	// if !poolAmountA.Quo(poolAmountB).Equal(msgAmountA.Quo(msgAmountB)) {
+	// 	amtB := poolAmountB.Mul(msgAmountA).Quo(poolAmountA)
+	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "For %s alpha, add %s beta", msgAmountA.String(), amtB.String())
+	// }
+
+	// if !poolAmountA.Mul(msgAmountB).RoundInt64().Equal(poolAmountB.Mul(msgAmountA).RoundInt64()) {
+	// 	amtB := poolAmountB.Mul(msgAmountA).Quo(poolAmountA)
+	// 	return &types.MsgJoinPoolResponse{}, sdkerror.Wrapf(types.ErrInvalidRatio, "For %s alpha, add %s beta", msgAmountA.String(), amtB.String())
+	// }
+	
+	// check pool ratios
+	if err := types.CheckRatios(poolAmountA, poolAmountB, msgAmountA, msgAmountB); err != nil {
+		return &types.MsgJoinPoolResponse{}, err
 	}
 	// get new shares out
 	var newShares sdk.Int

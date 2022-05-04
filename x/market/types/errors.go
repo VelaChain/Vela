@@ -39,4 +39,7 @@ var (
 	ErrExitfeeAmountNotPos	 = sdkerrors.Register(ModuleName, 2025, "exit fee amount not positive")
 	ErrConvertFeeToDec		 = sdkerrors.Register(ModuleName, 2026, "cannot convert fee to dec")
 	ErrSwapFeeAmountNotPos	 = sdkerrors.Register(ModuleName, 2027, "swap fee amount not positive")
+	ErrAmountANotPos		 = sdkerrors.Register(ModuleName, 2028, "amount a not positive")
+	ErrAmountBNotPos		 = sdkerrors.Register(ModuleName, 2029, "amount b not positive")
+
 )

@@ -1,8 +1,16 @@
 accounts:
   - name: alice
-    coins: ["20000token", "200000000stake", "200000000alpha", "200000000beta"]
+    coins: ["20000token", "200000000stake", "100000000alpha", "100000000beta"]
   - name: bob
-    coins: ["10000token", "100000000stake", "200000000alpha", "200000000beta"]
+    coins: ["10000token", "100000000stake", "100000000alpha", "100000000beta"]
+  - name: carol 
+    coins: ["10000token", "100000000stake", "100000000alpha", "100000000beta"]
+  - name: dan
+    coins: ["10000token", "100000000stake", "100000000alpha", "100000000beta"]
+  - name: eve 
+    coins: ["10000token", "100000000stake", "100000000alpha", "100000000beta"]
+  - name: frank
+    coins: ["10000token", "100000000stake", "200000000alpha", "100000000beta"]
 validator:
   name: alice
   staked: "100000000stake"

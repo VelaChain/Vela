@@ -88,12 +88,12 @@ func (k msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 	var amountOut, newAmountA, newAmountB sdk.Int
 	if pool.DenomA == msg.DenomIn {
 		// amount out b denom
-		amountOut = swapAmount.Mul(poolAmountB).Quo(poolAmountA)
+		amountOut = types.BOutGivenA(poolAmountA, poolAmountB, swapAmount)
 		newAmountA = poolAmountA.Add(msgAmountIn)
 		newAmountB = poolAmountB.Sub(amountOut)
 	} else {
 		// amount out a denom
-		amountOut = swapAmount.Mul(poolAmountA).Quo(poolAmountB)
+		amountOut = types.AOutGivenB(poolAmountA, poolAmountB, swapAmount)
 		newAmountA = poolAmountA.Sub(amountOut)
 		newAmountB = poolAmountB.Add(msgAmountIn)
 	}
